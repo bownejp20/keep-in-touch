@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keep in Touch</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- add contact button on individual page -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    ADD
+  </button>
+
+  <!-- what pops up -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Contact</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="newContactForm" method="post" class="modal-body">
+          <input id="firstNameInput" type="text" class="form-control" placeholder="first name">
+          <input id="lastNameInput" type="text" class="form-control" placeholder="last name">
+          <input id="phoneInput" type="phone" class="form-control" placeholder="phone">
+          <input id="email" type="text" class="form-control" placeholder="email">
+          <input id="messageInput" type="text" class="form-control" placeholder="message">
+          <label for="fruit">Select Frequency:</label>
+          <select id="timeFrame" name="frequency">
+            <option value="semi-monthly">semi-monthly</option>
+            <option value="monthly">monthly</option>
+            <option value="quarterly">quarterly</option>
+            <option value="semi-annually">semi-annually</option>
+            <option value="annually">annually</option>
+          </select>
+          <div class="modal-footer">
+            <button id="saveGroupBttn" type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="profile.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

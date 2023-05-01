@@ -1,0 +1,17 @@
+body{
+  padding-top:80px;
+  word-wrap:break-word;
+}
+img{
+  height: 200px;
+}
+.navbar{
+  background: rgb(140, 127, 214);
+}
+
+.body{
+  background-color: rgb(238, 224, 205);
+  border-radius: 15px;
+  margin-top: 4rem;
+}
+
