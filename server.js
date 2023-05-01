@@ -5,7 +5,7 @@
 var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 2024;
-const MongoClient = require('mongodb').MongoClient
+const {MongoClient, ObjectId} = require('mongodb') //we destructured this to get the id helper from Mongodb to use in the routes.js
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -23,7 +23,7 @@ var db
 mongoose.connect(configDB.url, (err, database) => {
   if (err) return console.log(err)
   db = database
-  require('./app/routes.js')(app, passport, db);
+  require('./app/routes.js')(app, passport, db, ObjectId); 
 }); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration

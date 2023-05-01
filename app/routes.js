@@ -1,4 +1,4 @@
-module.exports = function (app, passport, db) {
+module.exports = function (app, passport, db, ObjectId) {
 
   // normal routes ===============================================================
 
@@ -18,17 +18,18 @@ module.exports = function (app, passport, db) {
     })
   });
 
-      //takes me to the group indi page//
+  //takes me to the group indi page//
   app.get('/groups/:id', function (req, res) {
     console.log(req.params)
     if (!req?.params?.id) {
       res.send('404 your fault!')
       return
     }
-    const {id} = req.params // params represent the path name that we destructured 
-    db.collection('groups').find({_id:id}).toArray((err, result) => {
+    const { id } = req.params // params represent the path name that we destructured 
+    db.collection('groups').find({ _id: ObjectId(id) }).toArray((err, result) => {
       if (err) return console.log(err)
-      res.render('individualGroup.ejs', {user:req.user})
+      console.log(result)
+      res.render('individualGroup.ejs', { user: req.user, groups: result[0] })
     })
   });
 
@@ -43,8 +44,8 @@ module.exports = function (app, passport, db) {
   // posting when we create a group name =======================
 
   app.post('/group/create', (req, res) => {
-    const {groupName, description} = req.body
-    db.collection('groups').save({groupName, description, contacts:[]}, (err, result) => { //contacts:[] = we know we need it in the future so we are creating it now and giving it a default value
+    const { groupName, description } = req.body
+    db.collection('groups').save({ groupName, description, contacts: [] }, (err, result) => { //contacts:[] = we know we need it in the future so we are creating it now and giving it a default value
       if (err) return console.log(err)
       console.log('saved to database')
       res.send({
@@ -55,7 +56,20 @@ module.exports = function (app, passport, db) {
 
   // posting when we add an individual contact ============
 
-  
+  app.post('/groups/contact/create', (req, res) => {
+    const { firstName, lastName, phone, email, message, frequency, id } = req.body
+    console.log(req.body)
+
+    db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: { firstName, lastName, phone, email, message, frequency } } },
+      { returnOriginal: false }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        console.log(result.value)
+        res.send({
+          newContact: result.value
+        })
+      })
+  })
 
 
 

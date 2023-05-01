@@ -3,6 +3,8 @@ const groupNameInput =document.querySelector('#groupNameInput')
 const descriptionInput =document.querySelector('#descriptionInput')
 const groupListItems =document.querySelectorAll('.groupListItem')
 
+console.log('hi seth')
+
 //created a group and posted it to the DB//
 
 saveGroupBttn.addEventListener('click', () =>{ 
