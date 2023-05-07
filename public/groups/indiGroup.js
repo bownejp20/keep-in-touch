@@ -1,10 +1,15 @@
 console.log('connected')
 const newContactForm = document.querySelector('#newContactForm')
-
+const individualModal = new bootstrap.Modal(document.getElementById('individualModal'))
+const addIndiBttn = document.querySelector('#indiBttn')
 
 
 
 // post when creating a new contact form 
+
+addIndiBttn.addEventListener('click', () => {
+  individualModal.show()
+})
 
 newContactForm.addEventListener('submit', (e) =>{ 
   e.preventDefault()
@@ -35,7 +40,7 @@ newContactForm.addEventListener('submit', (e) =>{
   })
   .then(data => {
     console.log(data)
-    // window.location.reload(true)
+    individualModal.hide()
   })
 });
 
