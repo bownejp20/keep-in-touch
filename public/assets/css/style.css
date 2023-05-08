@@ -7927,3 +7927,9 @@ form.contact-form button:hover {
   }
 }
 /*# sourceMappingURL=../maps/style.css.map */
+.alert{
+  color: #f16363;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 50px;
+}

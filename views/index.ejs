@@ -183,6 +183,9 @@
                                 <p role="status" aria-live="polite" aria-atomic="true"></p>
                             </div>
                             <form class="contact-form" id="contact-form" action="/login" method="post">
+                                <% if (message.length > 0) { %>
+                                    <div class="alert alert-danger"><%= message %></div>
+                                <% } %>
                                 <div class="name-email">
                                     <input type="email" name="email" placeholder="Email">
                                     <input type="password" name="password" placeholder="Password">
