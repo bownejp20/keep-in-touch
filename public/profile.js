@@ -5,12 +5,13 @@ const groupListItems = document.querySelectorAll('.groupListItem')
 const addGroupBttn = document.querySelector('#addGroupBttn')
 const groupModal = new bootstrap.Modal(document.getElementById('groupModal'))
 
-console.log('hi seth')
+console.log('hi seth', saveGroupBttn)
 
 //created a group and posted it to the DB//
 
 addGroupBttn.addEventListener('click', () => {
   groupModal.show()
+  console.log('modal opened')
 })
 
 saveGroupBttn.addEventListener('click', (e) => {

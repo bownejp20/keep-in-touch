@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keep In Touch</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!--================= Favicon =================-->
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/logo.svg">
     <!--================= Magnific Popup CSS =================-->
@@ -61,7 +64,7 @@
     
     <!-- group being created -->
 
-    <div class="container text-center">
+    <!-- <div class="container text-center">
       <div class="row align-items-center">
         <div class="col-3 p-5">
           <ul class="messages"> 
@@ -70,8 +73,8 @@
                 <div class="card">
                   <div class="card-body">
                     <span>
-                      <%= groups[i].groupName %>     <!-- groups comes from the res.render groups in routes.js line16  -->
-                    </span>
+                      <%= groups[i].groupName %>     groups comes from the res.render groups in routes.js line16  -->
+                    <!-- </span>
                     <div class="container mt-3">
                       <div class="btn-group">
                         <button type="button" class="btn btn-primary m-2">Add</button>
@@ -86,7 +89,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
   
@@ -114,65 +117,28 @@
                         <div class="menu">
                             <div class="menu-main-menu-container">
                                 <ul class="xoxo_fn_main_nav">
-                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-117 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-130">
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-117 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-130">
                                         <a href="#0">
                                             <span>
 											<span>Home</span>
                                             <span class="suffix">//</span>
                                             </span>
                                         </a>
-                                        <ul class="sub-menu">
-                                            <li class="menu-item current-menu-item"><a href="index.html"><span><span>Home #1</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="index-two.html"><span><span>Home #2</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="index-three.html"><span><span>Home #3</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="index-four.html"><span><span>Home #4</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="index-five.html"><span><span>Home #5</span><span class="suffix">//</span></span></a></li>
-                                        </ul>
                                     </li>
-                                    <li class="menu-item menu-item-has-children">
+                                  
+                                    <li class="menu-item">
                                         <a href="#0">
                                             <span>
-											<span>Post Styles</span>
+											<span>Calendar</span>
                                             <span class="suffix">//</span>
                                             </span>
                                         </a>
-                                        <ul class="sub-menu">
-                                            <li class="menu-item"><a href="quote-post.html"><span><span>Quote Post</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="link-post.html"><span><span>Link Post</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="audio-post.html"><span><span>Audio Post</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="gallery-post.html"><span><span>Gallery Post</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="video-post.html"><span><span>Video Post</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="status-post.html"><span><span>Status Post</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="standard-post.html"><span><span>Standard Post</span><span class="suffix">//</span></span></a></li>
-                                        </ul>
+                                        
                                     </li>
-                                    <li class="menu-item menu-item-has-children">
-                                        <a href="#0">
-                                            <span>
-											<span>Categories</span>
-                                            <span class="suffix">//</span>
-                                            </span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="menu-item"><a href="fashion.html"><span><span>Fashion</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="food.html"><span><span>Food</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="health.html"><span><span>Health</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="interior.html"><span><span>Interior</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="lifestyle.html"><span><span>Lifestyle</span><span class="suffix">//</span></span></a></li>
-                                            <li class="menu-item"><a href="travel.html"><span><span>Travel</span><span class="suffix">//</span></span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item"><a href="contact.html"><span><span>Contact</span><span class="suffix">//</span></span></a></li>
+                              
                                 </ul>
                             </div>
-                            <div class="more">
-                                <a href="#0">
-                                    <span>More...</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <!-- Comes from JS -->
-                                </ul>
-                            </div>
+                            
                         </div>
                         <div class="icon_bar">
                             <div class="icon_bar__item icon_bar__home">
@@ -657,7 +623,10 @@
                         <div class="container blog_layout_masonry_container">
                             <div class="xoxo_fn_bloglist blog_layout_masonry">
                                 <ul>
-                                    <li class="post_item sticky">
+
+                                  
+                                    <% for(var i=0; i<groups.length; i++) {%>
+                                      <li class="post_item sticky">
                                         <div class="blog__item blog__item_masonry">
                                             <span class="post_icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
@@ -698,30 +667,33 @@
                                             </div>
                                             <div class="bottom_holder">
                                                 <div class="blog__image">
-                                                    <a href="standard-post.html"><img src="assets/images/blog/05.jpg" alt="Post Image"></a>
+                                                    <a href="/groups/<%=groups[i]._id %>"><img src="assets/images/blog/05.jpg" alt="Post Image"></a>
                                                 </div>
                                                 <div class="title_holder">
                                                     <div class="title">
-                                                        <h3><a href="standard-post.html">How I Kept My Sense of Humor</a></h3>
+                                                      
                                                     </div>
-                                                    <div class="author"><a href="https://themeforest.net/user/reacthemes/portfolio">Reacthemes</a>
+                                                    <div class="author"><a href="https://themeforest.net/user/reacthemes/portfolio"><%= groups[i].groupName %>     <!-- groups comes from the res.render groups in routes.js line16  --></a>
                                                     </div>
-                                                    <div class="desc">
-                                                        <p>It’s remarkable to watch a five-year-old draw, void of any
-                                                            anxiety about what the world will think. We all start our
-                                                            lives creatively confident, happy to create and share our
-                                                            work with pride. And then, as we age, our comfort with
-                                                            creative expression declines. We’re discouraged by the
-                                                            learning curve of creative skills and tools,
-                                                        </p>
+                                                    <div data-id="<%=groups[i]._id %>"class="desc groupListItem">
+                                                        <div class="container mt-3">
+                                                          <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary m-2">Add</button>
+                                                            <button type="button" class="btn btn-primary m-2">Rename</button>
+                                                            <button type="button" class="btn btn-primary m-2">Delete</button>
+                                                          </div>
+                                                        </div>
                                                     </div>
                                                     <div class="read_more">
-                                                        <div class="read_in"><a href="standard-post.html"><span class="text">Read More</span><span class="triple"></span></a></div>
+                                                        <div class="read_in"><a href="/groups/<%=groups[i]._id %>"><span class="text">Read More</span><span class="triple"></span></a></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
+                                      <% } %>
+                                 
+                                    
                                     <li class="post_item">
                                         <div class="blog__item blog__item_masonry">
                                             <div class="fn__meta">
@@ -1404,6 +1376,10 @@
     <!--================= Main JS =================-->
     <script src="assets/js/main.js"></script>
     <!--================= Script End =================-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="profile.js"></script>
 </body>
 
 </html>
