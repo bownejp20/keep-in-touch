@@ -7933,3 +7933,9 @@ form.contact-form button:hover {
   font-size: 20px;
   margin-bottom: 50px;
 }
+#addGroupBttn, #saveGroupBttn{
+  background-color: #f16363;
+  border: 2px solid #020202;
+  font-weight: 800;
+  color:#020202;
+}
