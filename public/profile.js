@@ -7,6 +7,15 @@ const groupModal = new bootstrap.Modal(document.getElementById('groupModal'))
 const newContactForm = document.querySelector('#newContactForm')
 const individualModal = new bootstrap.Modal(document.getElementById('indiModal'))
 const addIndiBttn = document.querySelector('#indiBttn')
+const deleteGroupBttns = document.querySelectorAll('.deleteGroup')
+const renameGroupBttns = document.querySelectorAll('.renameGroup')
+const searchGroups = document.querySelector('#searchGroups')
+const editModal = new bootstrap.Modal(document.getElementById('editModal'))
+let currentEditId = ''
+const editBttn = document.querySelector('#editBttn')
+const editName = document.querySelector('#editNameInput')
+const editDescription = document.querySelector('#editDescriptionInput')
+
 
 console.log('hi seth', saveGroupBttn)
 
@@ -38,6 +47,113 @@ saveGroupBttn.addEventListener('click', (e) => {
       groupModal.hide()
     })
 });
+
+// RENAME GROUP 
+
+Array.from(renameGroupBttns).forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    console.log(e.target)
+    currentEditId = e.target.dataset.id
+    editModal.show()
+    console.log('modal opened')
+  })
+})
+
+editBttn.addEventListener('click', (e) => {
+  e.preventDefault()
+  console.log(currentEditId)
+  fetch('groups/update', { 
+    method: 'put',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      groupName: editName.value,
+      description: editDescription.value,
+      id: currentEditId
+    })
+  })
+    .then(response => {
+      if (response.ok) return response.json()
+    })
+    .then(data => {
+      console.log(data)
+      editModal.hide()
+    })
+});
+
+
+// SEARCH BUTTON
+
+
+  searchGroups.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+  
+    var formData = new FormData(event.target); // Create FormData object with form data
+  
+    // Access form data using FormData methods
+    var groupSearch = formData.get('search'); //formData.get('search') is the same as document.queryselector.(), 
+  
+    // Do something with the form data
+    console.log('groupSearch:', groupSearch);
+    const ul = document.querySelector('#searchList') 
+    ul.replaceChildren()
+    fetch(`search/groups?groupName=${groupSearch}`, {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then((response) => {
+      console.log(response)
+      response.groups.forEach((group, index) => {
+       const li = document.createElement('li')
+       const div = document.createElement('div')
+       div.classList.add('category__item')
+       const anchor = document.createElement('a')
+       anchor.href = `/groups/${group._id}`
+       anchor.classList.add('full_link')
+       const span = document.createElement('span')
+       span.classList.add('cat_title')
+       const spanChildOne = document.createElement('span')
+       spanChildOne.innerText = `${group.groupName} - ${group.description}`
+       spanChildOne.classList.add('name')
+       const spanChildTwo = document.createElement('span')//only have this for the yellow circle
+       spanChildTwo.classList.add('count')
+       ul.appendChild(li)
+       li.appendChild(div)
+       div.appendChild(anchor)
+       div.appendChild(span)
+       span.appendChild(spanChildOne)
+       span.appendChild(spanChildTwo)
+       
+
+
+
+
+
+      })
+    })
+  });
+
+
+// DELETE BUTTON
+
+Array.from(deleteGroupBttns).forEach( bttn => {
+  bttn.addEventListener('click', (e) => {
+    console.log(e.target.dataset.id)
+    fetch('groups', {
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: e.target.dataset.id
+      })
+    }).then(function (response) {
+      window.location.reload()
+    })
+  });
+});
+
+
 
 
 // create the navigation to the individual group page //

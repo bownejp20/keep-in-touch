@@ -13,7 +13,8 @@ module.exports = function (app, passport, db, ObjectId) {
       if (err) return console.log(err)
       res.render('profile.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
         user: req.user,
-        groups: result
+        groups: result,
+
       })
     })
   });
@@ -30,6 +31,23 @@ module.exports = function (app, passport, db, ObjectId) {
       if (err) return console.log(err)
       console.log(result)
       res.render('individualGroup.ejs', { user: req.user, groups: result[0] })
+    })
+  });
+
+  // for the search 
+
+  app.get('/search/groups', function (req, res) {
+    console.log(req.params)
+    const {groupName} = req.query
+    if (!groupName) {
+      res.send({error: 'Enter Group Name!', success:false})
+      return
+    } 
+    //we did the regex to find partial matches in the search 
+    db.collection('groups').find( { groupName: { $regex: groupName, $options: 'i' } }).toArray((err, result) => {
+      if (err) return console.log(err)
+      console.log(result)
+      res.send({groups: result })
     })
   });
 
@@ -71,6 +89,23 @@ module.exports = function (app, passport, db, ObjectId) {
       })
   })
 
+  // updateing group name and description
+
+  app.put('/groups/update', (req, res) => {
+    const { groupName, description, id } = req.body
+    console.log(req.body)
+
+    db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $set: { groupName, description }},
+      { returnOriginal: false }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        console.log(result.value)
+        res.send({
+          editedGroup: result.value
+        })
+      })
+  })
+
 
 
   app.put('/messages', (req, res) => {
@@ -103,12 +138,15 @@ module.exports = function (app, passport, db, ObjectId) {
       })
   })
 
-  app.delete('/messages', (req, res) => {
-    db.collection('messages').findOneAndDelete({ name: req.body.name, msg: req.body.msg }, (err, result) => {
+  app.delete('/groups', (req, res) => {
+    const {id} = req.body
+    db.collection('groups').findOneAndDelete({_id:ObjectId(id)}, (err, result) => {
       if (err) return res.send(500, err)
-      res.send('Message deleted!')
+      res.send('transaction deleted!') 
     })
   })
+
+  
 
   // =============================================================================
   // AUTHENTICATE (FIRST LOGIN) ==================================================
