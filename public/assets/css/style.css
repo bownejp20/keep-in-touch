@@ -176,6 +176,9 @@ h6 {
   line-height: 1.22;
   letter-spacing: 0;
 }
+#jessica{
+  background: #020202;
+}
 
 input[type=password],
 input[type=email],
@@ -7937,5 +7940,14 @@ form.contact-form button:hover {
   background-color: #f16363;
   border: 2px solid #020202;
   font-weight: 800;
+  color:#020202;
+}
+
+.btn{
+  background-color: #f16363;
+  border: 2px solid #020202;
+  color:#020202;
+}
+.fn__svg {
   color:#020202;
 }

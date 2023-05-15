@@ -19,7 +19,7 @@ module.exports = function (app, passport, db, ObjectId) {
     })
   });
 
-  //takes me to the group indi page//
+  //takes me to the group indi page ========================
   app.get('/groups/:id', function (req, res) {
     console.log(req.params)
     if (!req?.params?.id) {
