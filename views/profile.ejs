@@ -93,7 +93,7 @@
                         <option value="annually">annually</option>
                     </select>
                     <div class="modal-footer">
-                        <button id="saveGroupBttn" type="submit" class="btn btn-primary">Save</button>
+                        <button id="saveIndiBttnProfile" type="submit" class="btn btn-primary">Save</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -531,10 +531,10 @@
                                                             <div class="container mt-3">
                                                                 <div class="btn-group">
                                                                     <!-- add contact button on individual page -->
-                                                                    <button id="indiBttn" type="button"
-                                                                        class="btn btn-primary m-2"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#indiModal">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary m-2 profIndiBttn"
+                                                                
+                                                                        data-id="<%=groups[i]._id %>">
                                                                         ADD
                                                                     </button>
 

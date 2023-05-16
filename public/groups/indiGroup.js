@@ -7,11 +7,34 @@ const addIndiBttn = document.querySelector('#indiBttn')
 
 
 
+
 // post when creating a new contact form 
 
 addIndiBttn.addEventListener('click', () => {
   individualModal.show()
 })
+
+const fileUploadHandler = event => {
+  const reader = new FileReader();
+  const targetFile =
+    event && event.target && event.target.files && event.target.files[0];
+  if (targetFile) {
+    reader.readAsDataURL(targetFile);
+    reader.onload = fileReaderEvent => {
+      console.log(fileReaderEvent, 'file');
+      dispatch({
+        type: 'image',
+        value: {
+          fileName: targetFile.name,
+          img: fileReaderEvent.target.result,
+        },
+      });
+    };
+    reader.onerror = () => {
+      console.log(reader.error);
+    };
+  }
+};
 
 newContactForm.addEventListener('submit', (e) =>{ 
   e.preventDefault()
@@ -24,26 +47,26 @@ newContactForm.addEventListener('submit', (e) =>{
   formData.append('message', document.querySelector('#messageInput').value)
   formData.append('frequency', document.querySelector('#timeFrame').value)
   console.log(formData)
-  fetch('contact/create', { 
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      phone: formData.get('phone'),
-      email: formData.get('email'),
-      message: formData.get('message'),
-      frequency: formData.get('frequency'),
-      id: e.target.dataset.id
-    })
-  })
-  .then(response => {
-    if (response.ok) return response.json()
-  })
-  .then(data => {
-    console.log(data)
-    individualModal.hide()
-  })
+  // fetch('contact/create', { 
+  //   method: 'post',
+  //   headers: {'Content-Type': 'application/json'},
+  //   body: JSON.stringify({
+  //     firstName: formData.get('firstName'),
+  //     lastName: formData.get('lastName'),
+  //     phone: formData.get('phone'),
+  //     email: formData.get('email'),
+  //     message: formData.get('message'),
+  //     frequency: formData.get('frequency'),
+  //     id: e.target.dataset.id
+  //   })
+  // })
+  // .then(response => {
+  //   if (response.ok) return response.json()
+  // })
+  // .then(data => {
+  //   console.log(data)
+  //   individualModal.hide()
+  // })
 });
 
 

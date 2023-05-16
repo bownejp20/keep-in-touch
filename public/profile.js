@@ -6,15 +6,17 @@ const addGroupBttn = document.querySelectorAll('#addGroupBttn')
 const groupModal = new bootstrap.Modal(document.getElementById('groupModal'))
 const newContactForm = document.querySelector('#newContactForm')
 const individualModal = new bootstrap.Modal(document.getElementById('indiModal'))
-const addIndiBttn = document.querySelector('#indiBttn')
+const addIndiBttn = document.querySelectorAll('.profIndiBttn')
 const deleteGroupBttns = document.querySelectorAll('.deleteGroup')
 const renameGroupBttns = document.querySelectorAll('.renameGroup')
 const searchGroups = document.querySelector('#searchGroups')
 const editModal = new bootstrap.Modal(document.getElementById('editModal'))
 let currentEditId = ''
+let currentAddContactId = ''
 const editBttn = document.querySelector('#editBttn')
 const editName = document.querySelector('#editNameInput')
 const editDescription = document.querySelector('#editDescriptionInput')
+const saveIndiBttnProfile = document.querySelector('#saveIndiBttnProfile')
 
 
 console.log('hi seth', saveGroupBttn)
@@ -168,46 +170,50 @@ Array.from(deleteGroupBttns).forEach( bttn => {
 
 // post when creating a new contact form 
 
-// Array.from(addIndiBttn).forEach(bttn => {
-//   bttn.addEventListener('click', () => {
-//     console.log('hello')
-//     individualModal.show()
-//   })
-// })
+Array.from(addIndiBttn).forEach(bttn => {
+  bttn.addEventListener('click', (e) => {
+    currentAddContactId = e.target.dataset.id
+    individualModal.show()
+  })
+})
 
 
-// newContactForm.addEventListener('submit', (e) =>{ 
-//   e.preventDefault()
-//   console.log(e.target.dataset.id)
-//   const formData = new FormData()
-//   formData.append('firstName', document.querySelector('#firstNameInput').value)
-//   formData.append('lastName', document.querySelector('#lastNameInput').value)
-//   formData.append('phone', document.querySelector('#phoneInput').value)
-//   formData.append('email', document.querySelector('#emailInput').value)
-//   formData.append('message', document.querySelector('#messageInput').value)
-//   formData.append('frequency', document.querySelector('#timeFrame').value)
-//   console.log(formData)
-//   fetch('contact/create', { 
-//     method: 'post',
-//     headers: {'Content-Type': 'application/json'},
-//     body: JSON.stringify({
-//       firstName: formData.get('firstName'),
-//       lastName: formData.get('lastName'),
-//       phone: formData.get('phone'),
-//       email: formData.get('email'),
-//       message: formData.get('message'),
-//       frequency: formData.get('frequency'),
-//       id: e.target.dataset.id
-//     })
-//   })
-//   .then(response => {
-//     if (response.ok) return response.json()
-//   })
-//   .then(data => {
-//     console.log(data)
-//     individualModal.hide()
-//   })
-// });
+
+// adding indi contact to a group =====================
+
+newContactForm.addEventListener('submit', (e) =>{ 
+  e.preventDefault()
+  console.log(currentAddContactId, 'contact ID')
+  const formData = new FormData()
+  formData.append('firstName', document.querySelector('#firstNameInput').value)
+  formData.append('lastName', document.querySelector('#lastNameInput').value)
+  formData.append('phone', document.querySelector('#phoneInput').value)
+  formData.append('email', document.querySelector('#emailInput').value)
+  formData.append('message', document.querySelector('#messageInput').value)
+  formData.append('frequency', document.querySelector('#timeFrame').value)
+  console.log(formData)
+  fetch('groups/contact/create', { 
+    method: 'post',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      phone: formData.get('phone'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+      frequency: formData.get('frequency'),
+      id: currentAddContactId
+    })
+  })
+  .then(response => {
+    if (response.ok) return response.json()
+  })
+  .then(data => {
+    console.log(data)
+    currentAddContactId = ''
+    individualModal.hide()
+  })
+});
 
 
 
