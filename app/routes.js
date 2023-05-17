@@ -1,3 +1,4 @@
+const cloudinary = require("../config/cloudinary");
 module.exports = function (app, passport, db, ObjectId) {
 
   // normal routes ===============================================================
@@ -72,24 +73,39 @@ module.exports = function (app, passport, db, ObjectId) {
     })
   })
 
-  // posting when we add an individual contact ============
+ 
 
-  app.post('/groups/contact/create', (req, res) => {
-    const { firstName, lastName, phone, email, message, frequency, id } = req.body
-    console.log(req.body)
+ // posting when we add an individual contact ============
 
-    db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: { firstName, lastName, phone, email, message, frequency } } },
-      { returnOriginal: false }, (err, result) => {
-        if (err) return console.log(err)
-        console.log('saved to database')
-        console.log(result.value)
-        res.send({
-          newContact: result.value
+ app.post('/groups/contact/create', async (req, res) => {
+  const { firstName, lastName, phone, email, message, frequency, id, fileName, img } = req.body
+  console.log(req.body)
+  let secure_url = null
+  let public_id = null
+  try {
+    if(img){
+      const result = await cloudinary.uploader.upload(img);
+      const {secure_url:url, public_id:publicId} = result
+      secure_url = url
+      public_id = publicId
+      console.log(result);
+      console.log(fileName);
+    }
+    db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: {_id:ObjectId(), firstName, lastName, phone, email, message, frequency, img : {public_id, fileName, secure_url}} } },
+        { returnOriginal: false }, (err, result) => {
+          if (err) return console.log(err)
+          console.log('saved to database')
+          console.log(result.value)
+          res.send({
+            newContact: result.value
+          })
         })
-      })
-  })
+  } catch (err) {
+    console.log(err)
+  }
+})
 
-  // updateing group name and description
+// updateing group name and description
 
   app.put('/groups/update', (req, res) => {
     const { groupName, description, id } = req.body
@@ -106,37 +122,42 @@ module.exports = function (app, passport, db, ObjectId) {
       })
   })
 
+  // updating contacts on indi page ========
 
 
-  app.put('/messages', (req, res) => {
-    db.collection('messages')
-      .findOneAndUpdate({ name: req.body.name, msg: req.body.msg }, {
-        $inc: {
-          thumbUp: 1
-        }
-      }, {
-        sort: { _id: -1 },
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
+
+
+  app.put('/groups/contact/update', (req, res) => {
+    const { groupId, contactId, } = req.body
+    console.log(req.body)
+
+    db.collection('groups').update({ _id: ObjectId(groupId),'contacts._id':ObjectId(contactId) }, { $set: {...req.body }},
+      { returnOriginal: false }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        console.log(result.value)
+        res.send({
+          editedGroup: result.value
+        })
       })
   })
 
-  app.put('/messages/thumbDown', (req, res) => {
-    db.collection('messages')
-      .findOneAndUpdate({ name: req.body.name, msg: req.body.msg }, {
-        $inc: {
-          thumbDown: - 1
-        }
-      }, {
-        sort: { _id: -1 },
-        upsert: true  //might be a bug later on that leon leaves and you need to fix
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
-      })
-  })
+  // db.collection.update({
+  //   "_id": ObjectId("615db3ea27d50d4105e7439d"),
+  //   "events._id": ObjectId("615db4a127d50d43bee743ab")
+  // },
+  // {
+  //   "$set": {
+  //     "events.$.donationLinks": [
+  //       "Hi"
+  //     ]
+  //   }
+  // })
+
+
+
+ 
+// deletes groups on profile page ==============
 
   app.delete('/groups', (req, res) => {
     const {id} = req.body
@@ -145,6 +166,9 @@ module.exports = function (app, passport, db, ObjectId) {
       res.send('transaction deleted!') 
     })
   })
+
+
+
 
   
 
