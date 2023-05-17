@@ -98,7 +98,7 @@ editBttn.addEventListener('click', (e) => {
     console.log('groupSearch:', groupSearch);
     const ul = document.querySelector('#searchList') 
     ul.replaceChildren()
-    fetch(`search/groups?groupName=${groupSearch}`, {
+    fetch(`/search/groups?groupName=${groupSearch}`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json'
@@ -127,12 +127,6 @@ editBttn.addEventListener('click', (e) => {
        div.appendChild(span)
        span.appendChild(spanChildOne)
        span.appendChild(spanChildTwo)
-       
-
-
-
-
-
       })
     })
   });

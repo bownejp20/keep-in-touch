@@ -242,9 +242,9 @@
       <div class="container">
         <div class="search_content">
           <div class="search_wrapper">
-            <form class="main_form" action="#" method="get">
+            <form class="main_form" data-id="<%=groups._id %>" id="searchContacts" action="#" method="get">
               <div class="input">
-                <input type="text" placeholder="Type at least one character to search..." name="s" autocomplete="off">
+                <input type="text" placeholder="Type at least one character to search..." name="search" autocomplete="off">
               </div>
               <div class="search">
                 <input type="submit" class="pe-7s-search" value="Search">
@@ -258,6 +258,21 @@
                 </svg>
               </div>
             </form>
+            <div id="xoxo_custom_categories-2" class="widget_block clear widget_xoxo_custom_categories">
+              <div>
+                  <div class="wid-title">
+                      <h1 class="text d-flex justify-content-center mt-5 ">Groups</h1>
+                      <span class="icon"></span>
+                      
+                  </div>
+                  <div class="xoxo_fn_ccategories">
+                      <ul id="searchList">
+                          
+                      </ul>
+                  </div>
+
+              </div>
+          </div>
           </div>
         </div>
       </div>
@@ -799,7 +814,7 @@
 
 
 
-            <% for(var i=0; i<groups.contacts.length; i++) {%> <!-- groups.contacts is the array of people -->
+            <% for(var i=0; i<groups?.contacts?.length; i++) {%> <!-- groups.contacts is the array of people -->
 
               <div class="xoxo_fn_rightsidebar">
                 <div class="sidebar_in">
@@ -824,10 +839,10 @@
                               </a>
                             </h3>
                             <span>
-                              <%= groups.contacts[i].frequency %>
+                              <%= groups.contacts[i].frequency.frequency %>
                             </span>
-                            <button type="button" data-contactId='<%groups.contacts[i]._id%>'
-                              data-groupId='<%groups._id%>' class="btn btn-primary m-2">Delete</button>
+                            <button type="button" data-contactId='<%=groups.contacts[i]._id%>'
+                              data-groupId='<%=groups._id%>' class="btn btn-primary m-2 delContactBtn">Delete</button>
 
                           </div>
                           <div class="author_bottom">
@@ -920,16 +935,17 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form class="contact-form" id="contact-form" data-contactId='<%=groups.contacts[i]._id%>' data-groupId='<%=groups._id%>'>
+                      <form class="contact-form" id="contact-form" data-contactId='<%=groups.contacts[i]._id%>'
+                        data-groupId='<%=groups._id%>' data-publicId='<%=groups.contacts[i].img.public_id%>'>
                         <div class="name-email" style="
                               display: flex;
                               justify-content: space-between;
                               align-content: center;
                               align-items: center;">
-                          <input type="text" name="name" class="form-control col-5" placeholder="Your Name"
-                            value="<%= groups.contacts[i].firstName %>"/>
+                          <input type="text" name="firstName" class="form-control col-5" placeholder="Your Name"
+                            value="<%= groups.contacts[i].firstName %>" />
                           <input type="text" name="lastName" class="form-control" placeholder="Last Name"
-                            value="<%= groups.contacts[i].lastName %>"/>
+                            value="<%= groups.contacts[i].lastName %>" />
                         </div>
                         <div class="phone-topic" style="
                               display: flex;
@@ -938,13 +954,24 @@
                               align-items: center;">
                           <input type="number" name="phone" class="form-control" placeholder="Phone (Optional)" required
                             value="<%= groups.contacts[i].phone %>">
-                          <input type="text" name="topic" class="form-control" placeholder="Topic (Optional)" required
+                          <input type="text" name="email" class="form-control" placeholder="Topic (Optional)" required
                             value="<%= groups.contacts[i].email %>">
                         </div>
                         <textarea name="message" class="form-control"
                           placeholder="Type Your Message"><%= groups.contacts[i].message %></textarea>
+                        <input id="imageInput" class="form-control" type="file" name="upload" aria-label="attach"
+                          accept=".jpg, .jpeg, .bmp, .gif, .png" />
+                        <input type="date" id="startDate" name="start-date" value="">
+                        <label for="frequency">Select Frequency:</label>
+                        <select id="timeFrame" name="frequency">
+                          <option value="bi-weekly">bi-weekly</option>
+                          <option value="monthly">monthly</option>
+                          <option value="quarterly" selected>quarterly</option>
+                          <option value="semi-annually">semi-annually</option>
+                          <option value="annually">annually</option>
+                        </select>
                         <input type="submit" data-contactId='<%=groups.contacts[i]._id%>' data-groupId='<%=groups._id%>'
-                          class="btn btn-primary m-2 updateBttn" value='Update'/>
+                          class="btn btn-primary m-auto mt-3 d-flex justify-content-center updateBttn" value='Update' />
                       </form>
                     </div>
                   </div>
@@ -1114,10 +1141,10 @@
             <input id="messageInput" type="text" class="form-control" placeholder="message">
             <input id="imageInput" class="form-control" type="file" name="upload" aria-label="attach"
               accept=".jpg, .jpeg, .bmp, .gif, .png" />
-            <input type="date" id="start" name="start-date" value="">
+            <input type="date" id="startDate" name="start-date" value="">
             <label for="frequency">Select Frequency:</label>
             <select id="timeFrame" name="frequency">
-              <option value="semi-monthly">semi-monthly</option>
+              <option value="bi-weekly">bi-weekly</option>
               <option value="monthly">monthly</option>
               <option value="quarterly">quarterly</option>
               <option value="semi-annually">semi-annually</option>
