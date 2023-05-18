@@ -66,22 +66,59 @@ module.exports = function (app, passport, db, ObjectId) {
       return
     }
     //we did the regex to find partial matches in the search 
-
+   
     db.collection('groups').find({
-      // _id: ObjectId(groupId),
       $or: [
-        { firstName:{ $regex: contactSearch, $options: 'i' }  },
-        { lastName: { $regex: contactSearch, $options: 'i' }  },
-        { phone: { $regex: contactSearch, $options: 'i' }  },
-        { email: { $regex: contactSearch, $options: 'i' }  },
-        { 'frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.firstName':{ $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.lastName': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.phone': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.email': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
       ],
-    }).toArray((err, result) => {
+      
+      _id: ObjectId(groupId),
+    },
+    {projection:
+      {contacts:{$elemMatch:{$or:[
+      { 'firstName':{ $regex: contactSearch, $options: 'i' }  },
+        { 'lastName': { $regex: contactSearch, $options: 'i' }  },
+        { 'phone': { $regex: contactSearch, $options: 'i' }  },
+        { 'email': { $regex: contactSearch, $options: 'i' }  },
+        { 'frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
+    ]}}}}
+    // { contacts: { $elemMatch: { firstName: { $regex: contactSearch, $options: 'i' } } } }
+    ).toArray((err, result) => {
+      if (err) return console.log(err)
+      console.log(result)
+      res.send({ groups: result })
+    })
+    db.collection('groups').find({
+      $or: [
+        { 'contacts.firstName':{ $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.lastName': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.phone': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.email': { $regex: contactSearch, $options: 'i' }  },
+        { 'contacts.frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
+      ],
+      
+      _id: ObjectId(groupId),
+    },
+    {projection:
+      {contacts:{$elemMatch:{$or:[
+      { 'firstName':{ $regex: contactSearch, $options: 'i' }  },
+        { 'lastName': { $regex: contactSearch, $options: 'i' }  },
+        { 'phone': { $regex: contactSearch, $options: 'i' }  },
+        { 'email': { $regex: contactSearch, $options: 'i' }  },
+        { 'frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
+    ]}}}}
+    // { contacts: { $elemMatch: { firstName: { $regex: contactSearch, $options: 'i' } } } }
+    ).toArray((err, result) => {
       if (err) return console.log(err)
       console.log(result)
       res.send({ groups: result })
     })
   });
+  
    
 
   // LOGOUT ==============================
@@ -284,3 +321,17 @@ function isLoggedIn(req, res, next) {
 
   res.redirect('/');
 }
+
+
+// ({
+//   $and: [
+//       {
+//           $or: [
+//               {"firstName": /contactSearch/},
+//               {"lastName": /contactSearch/}
+//           ]
+//       },
+//       {
+//           "_id": ObjectId(groupId)
+//       }
+//   ]
