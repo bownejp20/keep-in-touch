@@ -1,4 +1,5 @@
 const cloudinary = require("../config/cloudinary");
+const {generateReminderDates} = require("./utils/date");
 module.exports = function (app, passport, db, ObjectId) {
 
   // normal routes ===============================================================
@@ -142,7 +143,7 @@ module.exports = function (app, passport, db, ObjectId) {
         console.log(result);
         console.log(fileName);
       }
-      db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: { _id: ObjectId(), firstName, lastName, phone, email, message, frequency: { frequency, startDate, reminderDates: [] }, img: { public_id, fileName, secure_url } } } },
+      db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: { _id: ObjectId(), firstName, lastName, phone, email, message, frequency: { frequency, startDate, reminderDates: generateReminderDates(startDate, frequency), }, img: { public_id, fileName, secure_url } } } },
         { returnOriginal: false }, (err, result) => {
           if (err) return console.log(err)
           console.log('saved to database')
@@ -178,6 +179,7 @@ module.exports = function (app, passport, db, ObjectId) {
   app.put('/groups/contact/update', async (req, res) => {
     const { groupId, contactId, firstName, email, lastName, message, frequency, phone, startDate, publicId, img, fileName } = req.body
     // console.log(req.body)
+    console.log(generateReminderDates(startDate, frequency))
     let secure_url = null
     let public_id = null
     try {
@@ -204,7 +206,9 @@ module.exports = function (app, passport, db, ObjectId) {
           "contacts.$.message": message,
           "contacts.$.frequency.frequency": frequency,
           "contacts.$.frequency.startDate": startDate, 
+          "contacts.$.frequency.reminderDates": generateReminderDates(startDate, frequency), 
           ...(img? { "contacts.$.img": {secure_url, fileName, public_id}} : {})
+          
         }
       },
         { returnOriginal: false }, (err, result) => {
@@ -220,7 +224,6 @@ module.exports = function (app, passport, db, ObjectId) {
 
     }
   })
-
 
 
   // deletes groups on profile page ==============
