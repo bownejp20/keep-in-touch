@@ -67,56 +67,38 @@ module.exports = function (app, passport, db, ObjectId) {
     }
     //we did the regex to find partial matches in the search 
    
-    db.collection('groups').find({
-      $or: [
-        { 'contacts.firstName':{ $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.lastName': { $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.phone': { $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.email': { $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
-      ],
-      
-      _id: ObjectId(groupId),
-    },
-    {projection:
-      {contacts:{$elemMatch:{$or:[
-      { 'firstName':{ $regex: contactSearch, $options: 'i' }  },
-        { 'lastName': { $regex: contactSearch, $options: 'i' }  },
-        { 'phone': { $regex: contactSearch, $options: 'i' }  },
-        { 'email': { $regex: contactSearch, $options: 'i' }  },
-        { 'frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
-    ]}}}}
-    // { contacts: { $elemMatch: { firstName: { $regex: contactSearch, $options: 'i' } } } }
-    ).toArray((err, result) => {
-      if (err) return console.log(err)
-      console.log(result)
-      res.send({ groups: result })
-    })
-    db.collection('groups').find({
-      $or: [
-        { 'contacts.firstName':{ $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.lastName': { $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.phone': { $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.email': { $regex: contactSearch, $options: 'i' }  },
-        { 'contacts.frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
-      ],
-      
-      _id: ObjectId(groupId),
-    },
-    {projection:
-      {contacts:{$elemMatch:{$or:[
-      { 'firstName':{ $regex: contactSearch, $options: 'i' }  },
-        { 'lastName': { $regex: contactSearch, $options: 'i' }  },
-        { 'phone': { $regex: contactSearch, $options: 'i' }  },
-        { 'email': { $regex: contactSearch, $options: 'i' }  },
-        { 'frequency.frequency': { $regex: contactSearch, $options: 'i' }  },
-    ]}}}}
-    // { contacts: { $elemMatch: { firstName: { $regex: contactSearch, $options: 'i' } } } }
-    ).toArray((err, result) => {
-      if (err) return console.log(err)
-      console.log(result)
-      res.send({ groups: result })
-    })
+    db.collection('groups').aggregate([
+      {
+        $match: {
+          _id: ObjectId(groupId)
+        }
+      },
+      {
+        $unwind: "$contacts"
+      },
+      {
+        $match: {
+          $or: [
+            { 'contacts.firstName': { $regex: contactSearch, $options: 'i' } },
+            { 'contacts.lastName': { $regex: contactSearch, $options: 'i' } },
+            { 'contacts.phone': { $regex: contactSearch, $options: 'i' } },
+            { 'contacts.email': { $regex: contactSearch, $options: 'i' } },
+            { 'contacts.frequency.frequency': { $regex: contactSearch, $options: 'i' } }
+          ]
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          contacts: { $push: "$contacts" }
+        }
+      }
+    ]).toArray((err, result) => {
+      if (err) return console.log(err);
+      const contacts = result.length > 0 ? result[0].contacts : [];
+      console.log(contacts);
+      res.send({ contacts });
+    });
   });
   
    
@@ -201,13 +183,14 @@ module.exports = function (app, passport, db, ObjectId) {
     try {
       if (img) {
         console.log('inconditional')
-        await cloudinary.uploader.destroy(publicId);
+        if(publicId){
+          await cloudinary.uploader.destroy(publicId);
+        }
         const result = await cloudinary.uploader.upload(img);
         const { secure_url: url, public_id: newPublicId } = result
         secure_url = url
         public_id = newPublicId
         console.log(result)
-        console.log({...(img? { "contacts.$.img": {secure_url, fileName, public_id}} : {})})
       //   // console.log(result);
       }
       console.log(public_id, fileName)

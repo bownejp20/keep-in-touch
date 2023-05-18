@@ -159,7 +159,7 @@ Array.from(updateContactForms).forEach(contact =>{
   for (const pair of formData.entries()) {
     console.log(`${pair[0]}, ${pair[1]}`);
   }
-  if(targetFile){
+  if(targetFile.name){
     const reader = new FileReader();
     reader.readAsDataURL(targetFile);
     reader.onload = fileReaderEvent => {
