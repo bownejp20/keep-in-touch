@@ -119,14 +119,14 @@ editBttn.addEventListener('click', (e) => {
        const spanChildOne = document.createElement('span')
        spanChildOne.innerText = `${group.groupName} - ${group.description}`
        spanChildOne.classList.add('name')
-       const spanChildTwo = document.createElement('span')//only have this for the yellow circle
-       spanChildTwo.classList.add('count')
+      //  const spanChildTwo = document.createElement('span')//only have this for the yellow circle
+      //  spanChildTwo.classList.add('count')
        ul.appendChild(li)
        li.appendChild(div)
        div.appendChild(anchor)
        div.appendChild(span)
        span.appendChild(spanChildOne)
-       span.appendChild(spanChildTwo)
+      //  span.appendChild(spanChildTwo)
       })
     })
   });
@@ -185,7 +185,16 @@ newContactForm.addEventListener('submit', (e) =>{
   formData.append('email', document.querySelector('#emailInput').value)
   formData.append('message', document.querySelector('#messageInput').value)
   formData.append('frequency', document.querySelector('#timeFrame').value)
-  console.log(formData)
+  formData.append('startDate', document.querySelector('#startDate').value)
+  const targetFile = document.querySelector('#imageInput').files?.[0]
+  console.log(targetFile)
+  if(targetFile){
+    const reader = new FileReader();
+    reader.readAsDataURL(targetFile);
+    reader.onload = fileReaderEvent => {
+      console.log(fileReaderEvent, 'file');
+      formData.append('img', fileReaderEvent.target.result)
+      formData.append('fileName', targetFile.name)
   fetch('groups/contact/create', { 
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -196,7 +205,10 @@ newContactForm.addEventListener('submit', (e) =>{
       email: formData.get('email'),
       message: formData.get('message'),
       frequency: formData.get('frequency'),
+      img: formData.get('img'),
+      fileName: formData.get('fileName'),
       id: currentAddContactId
+      
     })
   })
   .then(response => {
@@ -207,6 +219,35 @@ newContactForm.addEventListener('submit', (e) =>{
     currentAddContactId = ''
     individualModal.hide()
   })
+};
+reader.onerror = () => {
+  console.log(reader.error);
+};
+}else{
+fetch('/groups/contact/create', {
+  method: 'post',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    firstName: formData.get('firstName'),
+    lastName: formData.get('lastName'),
+    phone: formData.get('phone'),
+    email: formData.get('email'),
+    message: formData.get('message'),
+    startDate: formData.get('startDate'),
+    frequency: formData.get('frequency'),
+    img: formData.get('img'),
+    fileName: formData.get('fileName'),
+    id: e.target.dataset.id
+  })
+})
+    .then(response => {
+      if (response.ok) return response.json()
+    })
+    .then(data => {
+      console.log(data)
+      individualModal.hide()
+    })
+};   
 });
 
 

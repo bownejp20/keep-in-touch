@@ -1,10 +1,12 @@
 console.log('connected')
 const newContactForm = document.querySelector('#newContactForm')
 const individualModal = new bootstrap.Modal(document.getElementById('individualModal'))
-const addIndiBttn = document.querySelector('#indiBttn')
+const addIndiBttn = document.querySelectorAll('#indiBttn')
 const updateContactForms = document.querySelectorAll('.contact-form')
 const delContactBtn = document.querySelectorAll('.delContactBtn')
 const searchContacts = document.querySelector('#searchContacts')
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 
 //Search Contacts =========================
@@ -30,27 +32,33 @@ searchContacts.addEventListener('submit', function(event) {
   .then(res => res.json())
   .then((response) => {
     console.log(response)
-    // response.groups.forEach((group, index) => {
-    //  const li = document.createElement('li')
-    //  const div = document.createElement('div')
-    //  div.classList.add('category__item')
-    //  const anchor = document.createElement('a')
+    response.contacts.forEach((contact, index) => {
+     const li = document.createElement('li')
+     li.addEventListener('click', () =>{
+      document.querySelector('body').classList.remove('search-active')
+      location.href = "#";
+      location.href = `#${contact._id}`;
+      ul.replaceChildren()
+     })
+     const div = document.createElement('div')
+     div.classList.add('category__item')
+     const anchor = document.createElement('a')
     //  anchor.href = `/groups/${group._id}`
     //  anchor.classList.add('full_link')
-    //  const span = document.createElement('span')
-    //  span.classList.add('cat_title')
-    //  const spanChildOne = document.createElement('span')
-    //  spanChildOne.innerText = `${group.groupName} - ${group.description}`
-    //  spanChildOne.classList.add('name')
+     const span = document.createElement('span')
+     span.classList.add('cat_title')
+     const spanChildOne = document.createElement('span')
+     spanChildOne.innerText = `${contact.firstName} - ${contact.lastName}`
+     spanChildOne.classList.add('name')
     //  const spanChildTwo = document.createElement('span')//only have this for the yellow circle
     //  spanChildTwo.classList.add('count')
-    //  ul.appendChild(li)
-    //  li.appendChild(div)
-    //  div.appendChild(anchor)
-    //  div.appendChild(span)
-    //  span.appendChild(spanChildOne)
+     ul.appendChild(li)
+     li.appendChild(div)
+     div.appendChild(anchor)
+     div.appendChild(span)
+     span.appendChild(spanChildOne)
     //  span.appendChild(spanChildTwo)
-    // })
+    })
   })
 });
 
@@ -60,8 +68,10 @@ searchContacts.addEventListener('submit', function(event) {
 
 // post when creating a new contact form 
 
-addIndiBttn.addEventListener('click', () => {
+Array.from(addIndiBttn).forEach(btn => {
+  btn.addEventListener('click', () => {
   individualModal.show()
+})
 })
 
 

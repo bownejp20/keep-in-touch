@@ -1,5 +1,7 @@
 const cloudinary = require("../config/cloudinary");
 const {generateReminderDates} = require("./utils/date");
+const moment = require('moment');
+const {Reminder} = require("../config/services/twilio")
 module.exports = function (app, passport, db, ObjectId) {
 
   // normal routes ===============================================================
@@ -9,10 +11,54 @@ module.exports = function (app, passport, db, ObjectId) {
     res.render('index.ejs', { message: req.flash('loginMessage') });
   })
 
+  //  Sending reminders out ==================================
+
+const sendReminders = (user) => {
+  db.collection('groups').aggregate([
+    {
+      $match: {
+        'user': ObjectId(user)
+      }
+    },
+    {
+      $unwind: "$contacts"
+    },
+    {
+      $match: {
+        // $or: [
+          // { 'contacts.firstName': { $regex: contactSearch, $options: 'i' } },
+          // { 'contacts.lastName': { $regex: contactSearch, $options: 'i' } },
+          // { 'contacts.phone': { $regex: contactSearch, $options: 'i' } },
+          'contacts.frequency.reminderDates.newDate': moment().format('MMMM DD, YYYY'),
+          'contacts.frequency.reminderDates.sent': false 
+        // ]
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        contacts: { $push: "$contacts" }
+      }
+    }
+  ]).toArray((err, result) => {
+    if (err) return console.log(err);
+    const contacts = result.length > 0 ? result[0].contacts : [];
+    const smsFormat = contacts.map(({firstName, lastName, phone, message, _id}) => {
+      return {firstName, lastName, phone:'+1'+phone, message:`Reminder to call ${firstName} ${lastName}`, _id}
+
+    });
+    console.log(smsFormat)
+    smsFormat.forEach(contact => {
+      new Reminder(contact.phone, contact.message).sendReminder()
+    })
+   
+  });
+}
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
     console.log(req.user)
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
+      sendReminders(req.user._id)
       if (err) return console.log(err)
       res.render('profile.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
         user: req.user,
@@ -46,7 +92,7 @@ module.exports = function (app, passport, db, ObjectId) {
       res.send({ error: 'Enter Group Name!', success: false })
       return
     }
-    //we did the regex to find partial matches in the search 
+            //we did the regex to find partial matches in the search 
 
     db.collection('groups').find({ groupName: { $regex: groupName, $options: 'i' } }).toArray((err, result) => {
       if (err) return console.log(err)
@@ -66,7 +112,7 @@ module.exports = function (app, passport, db, ObjectId) {
       res.send({ error: 'Enter Contact Name!', success: false })
       return
     }
-    //we did the regex to find partial matches in the search 
+          //we did the regex to find partial matches in the search 
    
     db.collection('groups').aggregate([
       {
@@ -102,15 +148,6 @@ module.exports = function (app, passport, db, ObjectId) {
     });
   });
   
-   
-
-  // LOGOUT ==============================
-  app.get('/logout', function (req, res) {
-    req.logout(() => {
-      console.log('User has logged out!')
-    });
-    res.redirect('/');
-  });
 
   // posting when we create a group name =======================
 
@@ -246,6 +283,14 @@ module.exports = function (app, passport, db, ObjectId) {
       res.send('transaction deleted!')
     })
   })
+
+   // LOGOUT ==============================
+   app.get('/logout', function (req, res) {
+    req.logout(() => {
+      console.log('User has logged out!')
+    });
+    res.redirect('/');
+  });
 
 
 

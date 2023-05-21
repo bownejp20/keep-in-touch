@@ -50,7 +50,9 @@
 
     "passport-local": "~1.0.0",
 
-    "passport-twitter": "^0.1.5"
+    "passport-twitter": "^0.1.5",
+
+    "twilio": "^4.11.1"
 
   },
 

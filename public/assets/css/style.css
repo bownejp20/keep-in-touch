@@ -258,6 +258,7 @@ input[type=number]:focus {
   fill: currentcolor;
 }
 
+
 /*************************************************************************/
 /* 03) Logo
 /*************************************************************************/
@@ -369,21 +370,18 @@ input[type=number]:focus {
   text-decoration: none;
 }
 
-.xoxo_fn_header .logo img {
+/* .xoxo_fn_header .logo img {
   max-width: 300px;
   max-height: 300px;
+} */
+#keepLogo{
+  height: 150px
+}
+#indiLogo{
+  height:100px
 }
 
-.xoxo_fn_header .logo:after {
-  content: "";
-  position: absolute;
-  bottom: -30px;
-  left: 0;
-  right: 0;
-  background-image: url("../images/logo/bg.svg");
-  background-repeat: repeat-x;
-  height: 9px;
-}
+
 
 .xoxo_fn_header .search_opener a {
   display: block;

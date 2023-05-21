@@ -84,9 +84,12 @@
                     <input id="phoneInput" type="tel" class="form-control" placeholder="phone">
                     <input id="emailInput" type="text" class="form-control" placeholder="email">
                     <input id="messageInput" type="text" class="form-control" placeholder="message">
-                    <label for="frequency">Select Frequency:</label>
+                    <input id="imageInput" class="form-control mt-3 border border-2 border-black" type="file" name="upload" aria-label="attach"
+              accept=".jpg, .jpeg, .bmp, .gif, .png" />
+            <input type="date" id="startDate" name="startDate" value="">
+                    <label class="ms-5" for="frequency">Select Frequency:</label>
                     <select id="timeFrame" name="frequency">
-                        <option value="semi-monthly">semi-monthly</option>
+                        <option value="bi-weekly">semi-monthly</option>
                         <option value="monthly">monthly</option>
                         <option value="quarterly">quarterly</option>
                         <option value="semi-annually">semi-annually</option>
@@ -322,28 +325,27 @@
                     </div>
                     <!-- !Social List -->
                     <div class="logo">
-                        <a href="index.html">
-                            <img class="retina_logo" src="assets/images/logo/logo.png" alt="logo">
-                            <img class="desktop_logo" src="assets/images/logo/logo.png" alt="logo">
-                        </a>
+                       
+                            <!-- <img class="retina_logo" src="assets/images/logo/keepInTouchOne.png" alt="logo"> -->
+                            <img id="keepLogo" justify-content-center src="assets/images/logo/keepInTouchTwo.svg" alt="logo">
                     </div>
-                    <div class="search_opener">
-                        <a href="#">
-                            <span class="text">Search</span>
-                            <span class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="488.000000pt"
-                                    height="488.000000pt" viewBox="0 0 488.000000 488.000000"
-                                    preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
-                                    <g transform="translate(0.000000,488.000000) scale(0.100000,-0.100000)"
-                                        stroke="none">
-                                        <path
-                                            d="M2140 4874 c-165 -20 -218 -28 -303 -45 -263 -54 -570 -183 -792 -332 -179 -121 -378 -299 -510 -457 -271 -326 -444 -714 -511 -1150 -22 -142 -25 -488 -6 -630 92 -667 461 -1257 1019 -1631 538 -362 1205 -477 1842 -318 181 45 304 92 501 191 163 82 179 88 235 88 103 -1 126 -17 395 -284 216 -214 253 -246 310 -271 57 -26 77 -30 160 -30 86 0 101 3 162 32 89 42 151 101 191 182 30 62 32 72 32 176 0 104 -2 114 -33 180 -29 61 -60 96 -267 305 -258 259 -274 282 -275 385 0 56 6 72 88 235 99 197 146 320 191 501 174 699 17 1434 -427 1994 -78 98 -241 264 -347 353 -312 262 -725 447 -1137 508 -99 14 -446 27 -518 18z m476 -823 c401 -82 743 -312 970 -651 360 -540 333 -1254 -66 -1769 -306 -393 -781 -612 -1274 -587 -700 35 -1268 524 -1418 1220 -18 85 -22 133 -21 296 0 170 3 210 25 310 63 286 195 534 397 744 251 259 562 412 941 460 85 11 348 -3 446 -23z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
+                </div>
+                <div class="search_opener">
+                    <a href="#">
+                        <span class="text">Search</span>
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="488.000000pt"
+                                height="488.000000pt" viewBox="0 0 488.000000 488.000000"
+                                preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
+                                <g transform="translate(0.000000,488.000000) scale(0.100000,-0.100000)"
+                                    stroke="none">
+                                    <path
+                                        d="M2140 4874 c-165 -20 -218 -28 -303 -45 -263 -54 -570 -183 -792 -332 -179 -121 -378 -299 -510 -457 -271 -326 -444 -714 -511 -1150 -22 -142 -25 -488 -6 -630 92 -667 461 -1257 1019 -1631 538 -362 1205 -477 1842 -318 181 45 304 92 501 191 163 82 179 88 235 88 103 -1 126 -17 395 -284 216 -214 253 -246 310 -271 57 -26 77 -30 160 -30 86 0 101 3 162 32 89 42 151 101 191 182 30 62 32 72 32 176 0 104 -2 114 -33 180 -29 61 -60 96 -267 305 -258 259 -274 282 -275 385 0 56 6 72 88 235 99 197 146 320 191 501 174 699 17 1434 -427 1994 -78 98 -241 264 -347 353 -312 262 -725 447 -1137 508 -99 14 -446 27 -518 18z m476 -823 c401 -82 743 -312 970 -651 360 -540 333 -1254 -66 -1769 -306 -393 -781 -612 -1274 -587 -700 35 -1268 524 -1418 1220 -18 85 -22 133 -21 296 0 170 3 210 25 310 63 286 195 534 397 744 251 259 562 412 941 460 85 11 348 -3 446 -23z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </span>
+                    </a>
                 </div>
                 <!--================= Nav Start =================-->
                 <div class="header_bottom">
@@ -402,6 +404,7 @@
 
     <!--================= Mobile Menu Start =================-->
     <!--================= Mobile Menu Start Here =================-->
+    
     <div class="xoxo_fn_mobnav">
         <div class="mob_top">
             <div class="logo">
