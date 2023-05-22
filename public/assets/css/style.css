@@ -1731,6 +1731,9 @@ input[type=number]:focus {
 .xoxo_fn_pagetitle {
   padding-bottom: 70px;
 }
+.calPad{
+  padding-bottom: 30px;
+}
 
 .xoxo_fn_pagetitle .fn__title {
   margin: 0;

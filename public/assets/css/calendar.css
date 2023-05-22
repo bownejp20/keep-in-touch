@@ -1,13 +1,26 @@
-header {
+#calHeader {
   display: flex;
-  align-items: center;
-  font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
-  justify-content: center;
-  margin-bottom: 2em;
-  background: #000;
-  color: #fff;
+  align-items: flex-end;
+  font-size: calc(14px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+  justify-content: space-around;
+  margin-bottom: 1em;
   min-height: 10vh;
   text-align: center;
+}
+#backButton, #nextButton{
+  width:auto;
+  color: black;
+  padding: 0 10px;
+  margin-left: 7px;
+  font-size: calc(10px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+  border: rgb(41, 41, 41) solid .5px;
+}
+#backButton:hover, #nextButton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+#monthDisplay{
+  font-family: var(--hff);
+  font-weight: 700;
 }
 
 ul, ol {
@@ -26,6 +39,8 @@ li {
   list-style: none;
   margin-left: 0;
   font-size: calc(16px + (21 - 16) * ((100vw - 300px) / (1600 - 300)));
+  color: #f16363;
+  
 }
 
 ul.weekdays {
@@ -107,16 +122,17 @@ button {
   align-items: flex-start
 }
 .day:hover {
-  background-color: #e8faed;
+  background-color: #f6dd7d;
+  ;
 }
 
 .day + #currentDay {
-  background-color:#e8f4fa;
+  background-color:#f9d7d7;
 }
 .event {
   font-size: 10px;
   padding: 3px;
-  background-color: #58bae4;
+  background-color:  #f16363;
   color: white;
   border-radius: 5px;
   max-height: 55px;

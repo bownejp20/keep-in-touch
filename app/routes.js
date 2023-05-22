@@ -1,7 +1,8 @@
 const cloudinary = require("../config/cloudinary");
 const {generateReminderDates} = require("./utils/date");
 const moment = require('moment');
-const {Reminder} = require("../config/services/twilio")
+const {Reminder} = require("../config/services/twilio");
+const {getReminderFormat} = require("./utils/utils")
 module.exports = function (app, passport, db, ObjectId) {
 
   // normal routes ===============================================================
@@ -82,8 +83,39 @@ const sendReminders = (user) => {
     })
   });
 
+  // Gets all the groups/contacts for CALENDAR ============================
+
+  app.get('/calendar/reminder', isLoggedIn, function (req, res) {
+    console.log(req.user);
+    db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, groups) => {
+      if (err) return console.log(err);
+
+        const contacts = groups.map(group => group.contacts).reduce((accum, contact) => {
+          contact.forEach(person => {
+            console.log(person)
+            const {firstName, lastName, phone, frequency:{reminderDates}} = person
+            reminderDates.forEach(date => {
+              console.log(date.newDate, person._id)
+              accum[date.newDate][person._id] = {
+                Name: `${firstName} ${lastName}`,
+                Phone: phone
+              } 
+            })
+          })
+          return accum
+        }, {} )
+      // const contacts = groups.map(group => group.contacts).flat();
+  
+      res.send({ 
+        user: req.user,
+        contacts: getReminderFormat(contacts),
+      });
+    });
+  });
+  
+
   //takes me to the group indi page ========================
-  app.get('/groups/:id', function (req, res) {
+  app.get('/groups/:id', isLoggedIn, function (req, res) {
     console.log(req.params)
     if (!req?.params?.id) {
       res.send('404 your fault!')
@@ -99,7 +131,7 @@ const sendReminders = (user) => {
 
   // for the search 
 
-  app.get('/search/groups', function (req, res) {
+  app.get('/search/groups', isLoggedIn, function (req, res) {
     console.log(req.params)
     const { groupName } = req.query
     if (!groupName) {
@@ -118,7 +150,7 @@ const sendReminders = (user) => {
 
    // CONTACT SEARCH ==================
 
-   app.get('/search/contact', function (req, res) {
+   app.get('/search/contact', isLoggedIn, function (req, res) {
     console.log(req.query)
     const { contactSearch, groupId } = req.query
     console.log(contactSearch, groupId)
@@ -165,7 +197,7 @@ const sendReminders = (user) => {
 
   // posting when we create a group name =======================
 
-  app.post('/group/create', (req, res) => {
+  app.post('/group/create',isLoggedIn, (req, res) => {
     const { groupName, description } = req.body
     db.collection('groups').save({ groupName, description, contacts: [], user: req.user._id }, (err, result) => { //contacts:[] = we know we need it in the future so we are creating it now and giving it a default value
       if (err) return console.log(err)
@@ -180,7 +212,7 @@ const sendReminders = (user) => {
 
   // posting when we add an individual contact ============
 
-  app.post('/groups/contact/create', async (req, res) => {
+  app.post('/groups/contact/create', isLoggedIn, async (req, res) => {
     const { firstName, lastName, phone, email, message, frequency, id, fileName, img, startDate } = req.body
     console.log(req.body)
     let secure_url = null
@@ -210,7 +242,7 @@ const sendReminders = (user) => {
 
   // updateing group name and description
 
-  app.put('/groups/update', (req, res) => {
+  app.put('/groups/update', isLoggedIn, (req, res) => {
     const { groupName, description, id } = req.body
     console.log(req.body)
 
@@ -227,7 +259,7 @@ const sendReminders = (user) => {
 
   // updating contacts on indi page ========
 
-  app.put('/groups/contact/update', async (req, res) => {
+  app.put('/groups/contact/update', isLoggedIn, async (req, res) => {
     const { groupId, contactId, firstName, email, lastName, message, frequency, phone, startDate, publicId, img, fileName } = req.body
     // console.log(req.body)
     console.log(generateReminderDates(startDate, frequency))
@@ -279,7 +311,7 @@ const sendReminders = (user) => {
 
   // deletes groups on profile page ==============
 
-  app.delete('/groups', (req, res) => {
+  app.delete('/groups', isLoggedIn, (req, res) => {
     const { id } = req.body
     db.collection('groups').findOneAndDelete({ _id: ObjectId(id) }, (err, result) => {
       if (err) return res.send(500, err)
@@ -289,7 +321,7 @@ const sendReminders = (user) => {
 
   // deletes contacts on indi page ==============
 
-  app.delete('/groups/contact/delete', (req, res) => {
+  app.delete('/groups/contact/delete', isLoggedIn, (req, res) => {
     const { contactId } = req.body
     console.log(contactId)
     db.collection('groups').update({ 'contacts._id': ObjectId(contactId) }, { $pull: { contacts: { _id: ObjectId(contactId) } } }, (err, result) => {
