@@ -85,25 +85,27 @@ const sendReminders = (user) => {
 
   // Gets all the groups/contacts for CALENDAR ============================
 
-  app.get('/calendar/reminder', isLoggedIn, function (req, res) {
-    console.log(req.user);
+  app.get('/calendar/reminder', function (req, res) {
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, groups) => {
       if (err) return console.log(err);
 
         const contacts = groups.map(group => group.contacts).reduce((accum, contact) => {
           contact.forEach(person => {
-            console.log(person)
             const {firstName, lastName, phone, frequency:{reminderDates}} = person
             reminderDates.forEach(date => {
-              console.log(date.newDate, person._id)
-              accum[date.newDate][person._id] = {
+              accum[date.newDate] ? accum[date.newDate].push({
                 Name: `${firstName} ${lastName}`,
                 Phone: phone
-              } 
+              }) : accum[date.newDate] = []; accum[date.newDate].push({
+                Name: `${firstName} ${lastName}`,
+                Phone: phone
+              })
             })
           })
           return accum
         }, {} )
+
+      console.log(contacts)
       // const contacts = groups.map(group => group.contacts).flat();
   
       res.send({ 
