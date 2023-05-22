@@ -47,10 +47,10 @@ const sendReminders = (user) => {
       return {firstName, lastName, phone:'+1'+phone, message:`Reminder to call ${firstName} ${lastName}`, _id}
 
     });
-    console.log(smsFormat)
-    smsFormat.forEach(contact => {
-      new Reminder(contact.phone, contact.message).sendReminder()
-    })
+    // console.log(smsFormat)
+    // smsFormat.forEach(contact => {
+    //   new Reminder(contact.phone, contact.message).sendReminder()
+    // })
    
   });
 }
@@ -61,6 +61,20 @@ const sendReminders = (user) => {
       sendReminders(req.user._id)
       if (err) return console.log(err)
       res.render('profile.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
+        user: req.user,
+        groups: result,
+
+      })
+    })
+  });
+
+   // CALENDAR PAGE =========================
+   app.get('/calendar', isLoggedIn, function (req, res) {
+    console.log(req.user)
+    db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
+      sendReminders(req.user._id)
+      if (err) return console.log(err)
+      res.render('calendar.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
         user: req.user,
         groups: result,
 

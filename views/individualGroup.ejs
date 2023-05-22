@@ -46,7 +46,7 @@
                   <ul class="xoxo_fn_main_nav">
                     <li
                       class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-117 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-130">
-                      <a href="#0">
+                      <a href="/profile">
                         <span>
                           <span>Home</span>
                           <span class="suffix">//</span>
@@ -57,7 +57,7 @@
 
                     </li>
                     <li class="menu-item ">
-                      <a href="#0">
+                      <a href="/calendar">
                         <span>
                           <span>Calendar</span>
                           <span class="suffix">//</span>
@@ -157,7 +157,7 @@
                 <img id="indiLogo" class="desktop_logo" src="/assets/images/logo/keepInTouchTwo.svg" alt="logo">
               </a>
             </div>
-            <div class="search_opener">
+            <div class="search_opener mt-4">
               <a href="#">
                 <span class="text">Search</span>
                 <span class="icon">
@@ -192,8 +192,8 @@
 
                       </li>
 
-                      <li class="menu-item ">
-                        <a href="#0">
+                      <li class="/profile ">
+                        <a href="/calendar">
                           <span>
                             <span>Calendar</span>
                             <span class="suffix">//</span>
@@ -315,7 +315,7 @@
           <ul id="menu-main-menu-1" class="mobile_menu">
             <li
               class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-117 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-130">
-              <a href="#0">
+              <a href="/profile">
                 <span>
                   <span>Home</span>
                   <span class="suffix">//</span>
@@ -325,7 +325,7 @@
 
 
             <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9">
-              <a href="#">
+              <a href="/calendar">
                 <span>
                   <span>Calendar</span>
                   <span class="suffix">//</span>
@@ -353,10 +353,10 @@
           <div class="xoxo_fn_breadcrumbs">
             <ul id="breadcrumbs" class="breadcrumbs">
               <li class="item-home">
-                <a class="bread-link bread-home" href="index.html" title="Home">Home</a>
+                <a class="bread-link bread-home" href="" title="Indi">Individual</a>
               </li>
               <li class="separator separator-home"> <span></span></li>
-              <li class="item-current item-cat"><span class="bread-current bread-cat">Contact Page</span></li>
+              <li class="item-current item-cat"><span class="bread-current bread-cat">Contacts Page</span></li>
             </ul>
           </div>
         </div>
@@ -457,12 +457,12 @@
                                 new Date(reminder.newDate))%>
 
 
-                                <div tabindex="0" class="fw-bold " style="width:fit-content;" role="button"
+                                <div tabindex="0" class="fw-medium indiFreq" style="width:fit-content;" role="button"
                                   data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="Date Frequency"
                                   data-bs-html="true" data-bs-content="<% for(let i =0 ; i < 2; i++) {%>
                                Next: <%= reminders[i]?.newDate %> <br/> 
                               <% } %>">
-                                  <%= groups.contacts[i].frequency.frequency %>
+                                  <%= groups.contacts[i].frequency.frequency.toUpperCase() %>
                                 </div>
                                 <div class="d-flex justify-content-center">
                                   <button type="button" data-contactId='<%=groups.contacts[i]._id%>'
