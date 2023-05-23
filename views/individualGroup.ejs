@@ -69,7 +69,7 @@
 
               </div>
               <div class="icon_bar">
-                <button id="indiBttn" type="button" class="btn btn-primary fw-semibold m-3" data-bs-toggle="modal"
+                <button id="indiBttn" type="button" class="btn btn-tertiary fw-semibold m-3" data-bs-toggle="modal"
                   data-bs-target="#exampleModal">
                   ADD
                 </button>
@@ -120,7 +120,7 @@
             <div id="xoxo_custom_categories-2" class="widget_block clear widget_xoxo_custom_categories">
               <div>
                 <div class="wid-title">
-                  <h1 class="text d-flex justify-content-center mt-5 ">Groups</h1>
+                  <h1 class="text d-flex justify-content-center mt-5 ">Contacts</h1>
                   <span class="icon"></span>
 
                 </div>
@@ -202,7 +202,7 @@
                       </li>
                       <div class="m-2">
                       </div>
-                      <button id="indiBttn" type="button" class="btn btn-primary m-3 pt-1 pb-1 fw-semibold"
+                      <button id="indiBttn" type="button" class="btn btn-tertiary m-3 pt-1 pb-1 fw-semibold"
                         data-bs-toggle="modal" data-bs-target="#exampleModal">
                         ADD
                       </button>
@@ -333,7 +333,7 @@
               </a>
             </li>
 
-            <button id="indiBttn" type="button" class="btn btn-primary ms-3 fw-semibold" data-bs-toggle="modal"
+            <button id="indiBttn" type="button" class="btn btn-tertiary ms-3 fw-semibold" data-bs-toggle="modal"
               data-bs-target="#exampleModal">ADD</button>
           </ul>
         </div>
@@ -377,15 +377,15 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form data-id="<%=groups._id %>" id="newContactForm" method="post" class="modal-body">
-            <input id="firstNameInput" type="text" class="form-control" placeholder="first name">
-            <input id="lastNameInput" type="text" class="form-control" placeholder="last name">
-            <input id="phoneInput" type="tel" class="form-control" placeholder="phone">
-            <input id="emailInput" type="email" class="form-control" placeholder="email">
-            <input id="messageInput" type="text" class="form-control" placeholder="message">
+            <input id="firstNameInput" type="text" class="form-control" placeholder="First Name">
+            <input id="lastNameInput" type="text" class="form-control" placeholder="Last Name">
+            <input id="phoneInput" type="tel" class="form-control" placeholder="Phone">
+            <input id="emailInput" type="email" class="form-control" placeholder="Email">
+            <input id="messageInput" type="text" class="form-control" placeholder="Comments">
             <input id="imageInput" class="form-control mt-3 border border-2 border-black" type="file" name="upload"
               aria-label="attach" accept=".jpg, .jpeg, .bmp, .gif, .png" />
             <input type="date" id="startDate" name="startDate" value="">
-            <label class="ms-5" for="frequency">Select Frequency:</label>
+            <label class="ms-5 col-5" for="frequency">Select Frequency:</label>
             <select id="timeFrame" name="frequency">
               <option value="bi-weekly">BI-WEEKLY</option>
               <option value="monthly">MONTHLY</option>
@@ -393,9 +393,12 @@
               <option value="semi-annually">SEMI-ANNUALLY</option>
               <option value="annually">ANNUALLY</option>
             </select>
+            <input id="linkedIn" type="url" class="form-control m-2" placeholder="LinkedIn">
+            <input id="instagram" type="url" class="form-control m-2" placeholder="Instagram">
+            <input id="facebook" type="url" class="form-control m-2" placeholder="Facebook">
             <div class="modal-footer">
-              <button id="saveGroupBttn" type="submit" class="btn btn-primary">Save</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button id="saveGroupBttn" type="submit" class="btn btn-tertiary">Save</button>
+              <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Close</button>
             </div>
           </form>
         </div>
@@ -453,8 +456,8 @@
                               </a>
                             </h3>
 
-                            <% const reminders=groups?.contacts[i].frequency.reminderDates.filter(reminder => new Date(new Date().setDate(new Date().getDate()-1)) <
-                                new Date(reminder.newDate))%>
+                            <% const reminders=groups?.contacts[i].frequency.reminderDates.filter(reminder=> new
+                              Date(new Date().setDate(new Date().getDate()-1)) < new Date(reminder.newDate))%>
 
 
                                 <div tabindex="0" class="fw-medium indiFreq" style="width:fit-content;" role="button"
@@ -467,13 +470,13 @@
                                 <div class="d-flex justify-content-center">
                                   <button type="button" data-contactId='<%=groups.contacts[i]._id%>'
                                     data-groupId='<%=groups._id%>'
-                                    class="btn btn-primary m-2 delContactBtn">Delete</button>
+                                    class="btn btn-tertiary m-2 delContactBtn">Delete</button>
                                 </div>
                           </div>
                           <div class="author_bottom">
                             <ul class="author_social">
                               <li>
-                                <a href="#">
+                                <a href="<%=groups?.contacts[i]?.facebook%>">
                                   <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
                                     height="512.000000pt" viewBox="0 0 512.000000 512.000000"
                                     preserveAspectRatio="xMidYMid meet" class="fn__svg replaced-svg">
@@ -487,35 +490,16 @@
                                 </a>
                               </li>
                               <li>
-                                <a href="#">
-                                  <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
-                                    height="512.000000pt" viewBox="0 0 512.000000 512.000000"
-                                    preserveAspectRatio="xMidYMid meet" class="fn__svg replaced-svg">
-                                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                      stroke="none">
-                                      <path
-                                        d="M3367 4624 c-408 -74 -731 -372 -838 -776 -19 -69 -23 -110 -23 -248 -1 -91 2 -184 7 -208 l7 -44 -67 7 c-441 40 -797 141 -1152 326 -328 171 -669 440 -878 691 -32 38 -62 67 -67 65 -6 -2 -27 -42 -48 -90 -144 -325 -117 -700 70 -992 55 -85 145 -186 218 -244 l75 -61 -41 0 c-88 0 -271 50 -370 100 -21 11 -43 20 -47 20 -14 0 4 -183 27 -271 91 -345 347 -618 688 -732 56 -19 96 -37 88 -40 -45 -17 -193 -29 -308 -25 l-130 6 7 -26 c11 -44 85 -184 131 -248 176 -248 465 -418 747 -441 42 -3 77 -9 77 -14 0 -16 -224 -155 -361 -223 -312 -155 -621 -222 -984 -214 l-185 4 52 -33 c77 -48 309 -165 413 -208 561 -233 1216 -286 1834 -149 909 202 1658 834 2036 1719 161 378 242 750 251 1150 l3 180 73 58 c92 75 196 174 275 262 67 76 165 207 159 212 -2 2 -32 -8 -67 -22 -133 -54 -440 -132 -486 -123 -11 2 -3 12 26 31 76 50 211 189 268 275 50 74 123 221 123 247 0 6 -61 -20 -136 -57 -136 -66 -313 -130 -451 -163 l-73 -17 -61 56 c-234 217 -571 316 -882 260z">
-                                      </path>
-                                    </g>
+                                <a href="<%=groups?.contacts[i]?.linkedIn%>">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-linkedin" viewBox="0 0 16 16">
+                                    <path
+                                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
                                   </svg>
                                 </a>
                               </li>
                               <li>
-                                <a href="#">
-                                  <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
-                                    height="512.000000pt" viewBox="0 0 512.000000 512.000000"
-                                    preserveAspectRatio="xMidYMid meet" class="fn__svg replaced-svg">
-                                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                      stroke="none">
-                                      <path
-                                        d="M2365 5114 c-266 -29 -428 -61 -617 -125 -759 -253 -1364 -859 -1617 -1617 -223 -667 -157 -1424 175 -2025 259 -469 649 -848 1106 -1074 59 -29 110 -53 113 -53 3 0 5 48 5 108 0 155 18 330 46 462 13 63 93 405 177 760 l153 645 -22 55 c-78 192 -76 505 5 693 51 118 161 240 256 283 139 64 305 46 398 -44 81 -78 117 -173 117 -307 0 -105 -23 -207 -113 -515 -102 -346 -105 -356 -116 -427 -20 -126 19 -244 110 -335 158 -158 442 -155 658 8 146 110 293 352 370 614 57 190 75 330 76 580 0 201 -2 234 -22 307 -93 346 -333 585 -678 673 -231 59 -534 54 -767 -14 -427 -124 -760 -508 -833 -959 -20 -120 -19 -298 1 -395 19 -94 78 -223 138 -303 63 -83 64 -102 23 -258 -49 -186 -74 -208 -184 -157 -211 99 -361 292 -437 563 -40 142 -50 227 -50 408 0 184 16 290 70 451 103 310 337 616 627 821 331 234 859 359 1318 313 289 -30 545 -121 783 -280 315 -211 527 -516 614 -884 24 -102 26 -129 26 -321 0 -290 -34 -501 -119 -745 -137 -391 -395 -701 -720 -863 -212 -105 -518 -146 -725 -97 -159 39 -321 137 -400 243 -30 40 -36 44 -42 28 -3 -10 -45 -169 -92 -353 -47 -184 -99 -374 -117 -424 -34 -98 -116 -267 -179 -369 -22 -36 -40 -69 -40 -73 0 -5 48 -20 108 -35 550 -136 1136 -87 1644 138 787 349 1359 1084 1492 1916 67 422 35 854 -94 1240 -308 919 -1115 1592 -2070 1724 -111 15 -473 28 -555 19z">
-                                      </path>
-                                    </g>
-                                  </svg>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#">
+                                <a href="<%=groups?.contacts[i]?.instagram%>">
                                   <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
                                     height="512.000000pt" viewBox="0 0 512.000000 512.000000"
                                     preserveAspectRatio="xMidYMid meet" class="fn__svg replaced-svg">
@@ -583,23 +567,31 @@
                             value="<%= groups.contacts[i].email %>">
                         </div>
                         <textarea name="message" class="form-control"
-                          placeholder="Type Your Message"><%= groups.contacts[i].message %></textarea>
+                          placeholder="Type Your Comments"><%= groups.contacts[i].message %></textarea>
                         <input id="imageInput" class="form-control mt-3 m-1" type="file" name="upload"
                           aria-label="attach" accept=".jpg, .jpeg, .bmp, .gif, .png" />
                         <input type="date" name="startDate" value="<%= groups.contacts[i].frequency.startDate%>">
-                        <label class="ms-5" for="frequency">Select Frequency:</label>
-                        <select id="timeFrame" name="frequency" >
-                          <option value="bi-weekly" <%= groups.contacts[i].frequency.frequency === "bi-weekly" ? "selected" : "" %>>BI-WEEKLY</option>
-                          <option value="monthly" <%= groups.contacts[i].frequency.frequency === "monthly" ? "selected" : "" %> >MONTHLY</option>
-                          <option value="quarterly" <%= groups.contacts[i].frequency.frequency === "quarterly" ? "selected" : "" %>>QUARTERLY</option>
-                          <option value="semi-annually" <%= groups.contacts[i].frequency.frequency === "semi-annually" ? "selected" : "" %>>SEMI-ANNUALLY</option>
-                          <option value="annually" <%= groups.contacts[i].frequency.frequency === "annually" ? "selected" : "" %> >ANNUALLY</option>
-                          <option value="annually" <%= groups.contacts[i].frequency.frequency === "annually" ? "selected" : "" %> >choose</option>
+                        <label class="ms-5 col-5 text-center fs-4" for="frequency">Select Frequency:</label>
+                        <select id="timeFrame" name="frequency">
+                          <option value="bi-weekly" <%=groups.contacts[i].frequency.frequency==="bi-weekly" ? "selected"
+                            : "" %>>BI-WEEKLY</option>
+                          <option value="monthly" <%=groups.contacts[i].frequency.frequency==="monthly" ? "selected"
+                            : "" %> >MONTHLY</option>
+                          <option value="quarterly" <%=groups.contacts[i].frequency.frequency==="quarterly" ? "selected"
+                            : "" %>>QUARTERLY</option>
+                          <option value="semi-annually" <%=groups.contacts[i].frequency.frequency==="semi-annually"
+                            ? "selected" : "" %>>SEMI-ANNUALLY</option>
+                          <option value="annually" <%=groups.contacts[i].frequency.frequency==="annually" ? "selected"
+                            : "" %> >ANNUALLY</option>
+                          <option value="annually" <%=groups.contacts[i].frequency.frequency==="annually" ? "selected"
+                            : "" %> >choose</option>
                         </select>
-                        <input type="submit" data-contactId='<%=groups.contacts[i]._id%>' 
-                        data-groupId='<%=groups._id%>'
-
-                          class="btn btn-primary m-auto mt-3 d-flex justify-content-center updateBttn" value='Update' />
+                        <input name="linkedIn" type="url" class="form-control m-2" placeholder="LinkedIn">
+                        <input name="instagram" type="url" class="form-control m-2" placeholder="Instagram">
+                        <input name="facebook" type="url" class="form-control m-2" placeholder="Facebook">
+                        <input type="submit" data-contactId='<%=groups.contacts[i]._id%>'
+                          data-groupId='<%=groups._id%>' 
+                        class="btn btn-primary m-auto mt-3 d-flex justify-content-center updateBttn" value='Update' />
                       </form>
                     </div>
                   </div>
@@ -627,7 +619,7 @@
       <div class="xoxo_fn_footer">
         <div class="footer_top">
           <div class="container">
-            <div class="footer_subscribe_form">
+            <div class="footer_subscribe_form pt-3 pb-3">
               <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt" height="512.000000pt"
                 viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
                 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
@@ -639,8 +631,7 @@
                   </path>
                 </g>
               </svg>
-              <h3 class="fsf_title">Stay in the loop</h3>
-              <p class="fsf_desc">Get the latest posts delivered right to your email.</p>
+              <h3 class="fsf_title">Keep In Touch</h3>
               <script>
                 (function () {
                   window.mc4wp = window.mc4wp || {
@@ -656,23 +647,7 @@
                   }
                 })();
               </script>
-              <!-- Mailchimp for WordPress v4.8.12 - https://wordpress.org/plugins/mailchimp-for-wp/ -->
-              <form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-162" method="post" data-id="162"
-                data-name="Footer Subscribe Form">
-                <div class="mc4wp-form-fields">
-                  <div class="fn__subscribe">
-                    <input type="email" name="EMAIL" placeholder="Your Email *" required="">
-                    <input type="submit" value="Subscribe">
-                  </div>
-                </div>
-                <label style="display: none !important;">Leave this field empty if you're human:
-                  <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off">
-                </label>
-                <input type="hidden" name="_mc4wp_timestamp" value="1673931253">
-                <input type="hidden" name="_mc4wp_form_id" value="162">
-                <input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1">
-                <div class="mc4wp-response"></div>
-              </form><!-- / Mailchimp for WordPress Plugin -->
+
             </div>
           </div>
         </div>
@@ -681,10 +656,7 @@
             <div class="footer_btm_in">
               <span class="wing_left"></span>
               <span class="wing_right"></span>
-              <div class="footer_copyright">
-                <p> © 2023 <a href="https://themeforest.net/user/reacthemes/portfolio" target="_blank">Reacthemes</a>,
-                  All Rights Reserved. </p>
-              </div>
+
             </div>
           </div>
         </div>
@@ -723,80 +695,6 @@
       </svg>
     </a>
     <!--================= Scroll to Top End =================-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- ================================================================================================================ -->
-
-    <div class="wid-title">
-      <h1 id="test" class="text d-flex justify-content-center mt-5 ">
-        <%= groups.groupName %> Group
-      </h1>
-      <!-- groups comes from the res.render groups in routes.js line33 indiGroup get   -->
-    </div>
-
-
-    <!-- add contact button on individual page -->
-    <button id="indiBttn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      ADD
-    </button>
-
-    <!-- what pops up -->
-    <div class="modal fade" id="individualModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Contact</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form data-id="<%=groups._id %>" id="newContactForm" method="post" class="modal-body">
-            <input id="firstNameInput" type="text" class="form-control" placeholder="first name">
-            <input id="lastNameInput" type="text" class="form-control" placeholder="last name">
-            <input id="phoneInput" type="tel" class="form-control" placeholder="phone">
-            <input id="emailInput" type="email" class="form-control" placeholder="email">
-            <input id="messageInput" type="text" class="form-control" placeholder="message">
-            <input id="imageInput" class="form-control" type="file" name="upload" aria-label="attach"
-              accept=".jpg, .jpeg, .bmp, .gif, .png" />
-            <input type="date" id="startDate" name="startDate" value="">
-            <label for="frequency">Select Frequency:</label>
-            <select id="timeFrame" name="frequency">
-              <option value="bi-weekly">BI-WEEKLY</option>
-              <option value="monthly">MONTHLY</option>
-              <option value="quarterly">QUARTERLY</option>
-              <option value="semi-annually">SEMI-ANNUALLY</option>
-              <option value="annually">ANNUALLY</option>
-            </select>
-            <div class="modal-footer">
-              <button id="saveGroupBttn" type="submit" class="btn btn-primary">Save</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- adding contacts to the page -->
-
-
-
-
-
-
-
-
 
 
     <!--================= jquery lastest version =================-->

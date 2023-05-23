@@ -374,9 +374,25 @@ input[type=number]:focus {
   max-width: 300px;
   max-height: 300px;
 } */
-#keepLogo{
-  height: 150px
+
+#keepLogo {
+  height: 150px;
+  animation: animateLogo 3s ease-in-out 3 alternate;
 }
+
+@keyframes animateLogo {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 #indiLogo{
   height:100px
 }
@@ -2581,6 +2597,9 @@ input[type=number]:focus {
   border-radius: 20px;
   background-color: var(--xoxo-mc2);
 }
+#imageInput{
+  height:40px;
+}
 
 .blog__image .fn__audio_popup:hover,
 .blog__image .fn__video_popup:hover {
@@ -2641,6 +2660,7 @@ input[type=number]:focus {
   border-radius: 16px;
   color: #fff;
   z-index: 5;
+  
 }
 
 .fn__gallery_format .slider__nav a:hover .fn__svg {
@@ -2944,8 +2964,8 @@ input[type=number]:focus {
 }
 
 .xoxo_fn_pagination li span,
-.xoxo_fn_pagination li a {
-  width: 70px;
+.xoxo_fn_pagination li  {
+  width: auto;
   height: 70px;
   display: block;
   text-decoration: none;
@@ -2955,10 +2975,14 @@ input[type=number]:focus {
   text-align: center;
   line-height: 62px;
   font-size: 24px;
-  font-weight: 900;
+  font-weight: 600;
   font-family: var(--hff);
   color: #000;
   position: relative;
+  padding:0px 10px;
+}
+#friends{
+  background-color:#ffcc00;
 }
 
 .xoxo_fn_pagination li span:after,
@@ -3054,21 +3078,6 @@ input[type=number]:focus {
   position: relative;
   padding-top: 34px;
   padding-bottom: 77px;
-}
-
-.xoxo_fn_footer .footer_btm_in:after {
-  content: "";
-  position: absolute;
-  width: 314px;
-  height: 9px;
-  max-width: 100%;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  top: 0;
-  background-image: url(../images/logo/bg.svg);
-  background-repeat: repeat-x;
 }
 
 .xoxo_fn_footer .wing_right:after,
@@ -7956,6 +7965,30 @@ form.contact-form button:hover {
 .indiFreq{
 margin: auto;
 }
+.bi-people-fill{
+  font-size: 40px;
+}
+
+@keyframes flyAnimation {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(300px, -100px);
+  }
+  75%{
+    transform: translate(-350px, 50px);
+  }
+  100% {
+    transform: translate(500px, -200px);
+  }
+}
+
+.svg-container {
+  animation: flyAnimation 4s ease-in-out 2;
+}
+
+
 
 
 /* ======== CSS FOR CALENDAR ================ */

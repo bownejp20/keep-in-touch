@@ -42,8 +42,8 @@
                     <input id="descriptionInput" type="text" class="form-control" placeholder="Description">
                 </div>
                 <div class="modal-footer">
-                    <button id="saveGroupBttn" type="button" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="saveGroupBttn" type="button" class="btn btn-tertiary">Save</button>
+                    <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -63,8 +63,8 @@
                     <input id="editDescriptionInput" type="text" class="form-control" placeholder="Description">
                 </div>
                 <div class="modal-footer">
-                    <button id="editBttn" type="button" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="editBttn" type="button" class="btn btn-tertiary">Save</button>
+                    <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -79,14 +79,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form data-id="<%=groups._id %>" id="newContactForm" method="post" class="modal-body">
-                    <input id="firstNameInput" type="text" class="form-control" placeholder="first name">
-                    <input id="lastNameInput" type="text" class="form-control" placeholder="last name">
-                    <input id="phoneInput" type="tel" class="form-control" placeholder="phone">
-                    <input id="emailInput" type="text" class="form-control" placeholder="email">
-                    <input id="messageInput" type="text" class="form-control" placeholder="message">
-                    <input id="imageInput" class="form-control mt-3 border border-2 border-black" type="file" name="upload" aria-label="attach"
-              accept=".jpg, .jpeg, .bmp, .gif, .png" />
-            <input type="date" id="startDate" name="startDate" value="">
+                    <input id="firstNameInput" type="text" class="form-control" placeholder="First Name">
+                    <input id="lastNameInput" type="text" class="form-control" placeholder="Last Name">
+                    <input id="phoneInput" type="tel" class="form-control" placeholder="Phone">
+                    <input id="emailInput" type="text" class="form-control" placeholder="Email">
+                    <input id="messageInput" type="text" class="form-control" placeholder="Comments">
+                    <input id="imageInput" class="form-control mt-3 border border-2 border-black" type="file"
+                        name="upload" aria-label="attach" accept=".jpg, .jpeg, .bmp, .gif, .png" />
+                    <input type="date" id="startDate" name="startDate" value="">
                     <label class="ms-5" for="frequency">Select Frequency:</label>
                     <select id="timeFrame" name="frequency">
                         <option value="bi-weekly">BI-WEEKLY</option>
@@ -95,9 +95,12 @@
                         <option value="semi-annually">SEMI-ANNUALLY</option>
                         <option value="annually">ANNUALLY</option>
                     </select>
+                    <input id="linkedIn" type="url" class="form-control m-2" placeholder="LinkedIn">
+                    <input id="instagram" type="url" class="form-control m-2" placeholder="Instagram">
+                    <input id="facebook" type="url" class="form-control m-2" placeholder="Facebook">
                     <div class="modal-footer">
-                        <button id="saveIndiBttnProfile" type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="saveIndiBttnProfile" type="submit" class="btn btn-tertiary">Save</button>
+                        <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -115,7 +118,7 @@
                                 <ul class="xoxo_fn_main_nav">
                                     <li
                                         class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-117 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-130">
-                                        <a href="#0">
+                                        <a href="">
                                             <span>
                                                 <span>Home</span>
                                                 <span class="suffix">//</span>
@@ -134,7 +137,7 @@
                                     </li>
 
                                     <li class="menu-item">
-                                        <button id="addGroupBttn" type="button" class="btn btn-primary m-3"
+                                        <button id="addGroupBttn" type="button" class="btn btn-tertiary m-3"
                                             data-bs-target="#exampleModal"> <!-- data-bs-toggle="modal" -->
                                             ADD
                                         </button>
@@ -145,7 +148,7 @@
                         </div>
                         <div class="icon_bar">
                             <div class="icon_bar__item icon_bar__home">
-                                <a href="#0">
+                                <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
                                         height="429.000000pt" viewBox="0 0 512.000000 429.000000"
                                         preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
@@ -295,11 +298,11 @@
                             <div class="wid-title">
                                 <h1 class="text d-flex justify-content-center mt-5 ">Groups</h1>
                                 <span class="icon"></span>
-                                
+
                             </div>
                             <div class="xoxo_fn_ccategories">
                                 <ul id="searchList">
-                                    
+
                                 </ul>
                             </div>
 
@@ -324,11 +327,12 @@
                         </div>
                     </div>
                     <!-- !Social List -->
-                    <div class="logo">
-                       
-                            <!-- <img class="retina_logo" src="assets/images/logo/keepInTouchOne.png" alt="logo"> -->
-                            <img id="keepLogo" justify-content-center src="assets/images/logo/keepInTouchTwo.svg" alt="logo">
+                    <div id="logoAnima" class="logo">
+                        <img id="keepLogo" justify-content-center src="assets/images/logo/keepInTouchTwo.svg"
+                            alt="logo">
                     </div>
+
+
                 </div>
                 <div class="search_opener d-flex justify-content-end">
                     <a href="#">
@@ -337,8 +341,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="488.000000pt"
                                 height="488.000000pt" viewBox="0 0 488.000000 488.000000"
                                 preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
-                                <g transform="translate(0.000000,488.000000) scale(0.100000,-0.100000)"
-                                    stroke="none">
+                                <g transform="translate(0.000000,488.000000) scale(0.100000,-0.100000)" stroke="none">
                                     <path
                                         d="M2140 4874 c-165 -20 -218 -28 -303 -45 -263 -54 -570 -183 -792 -332 -179 -121 -378 -299 -510 -457 -271 -326 -444 -714 -511 -1150 -22 -142 -25 -488 -6 -630 92 -667 461 -1257 1019 -1631 538 -362 1205 -477 1842 -318 181 45 304 92 501 191 163 82 179 88 235 88 103 -1 126 -17 395 -284 216 -214 253 -246 310 -271 57 -26 77 -30 160 -30 86 0 101 3 162 32 89 42 151 101 191 182 30 62 32 72 32 176 0 104 -2 114 -33 180 -29 61 -60 96 -267 305 -258 259 -274 282 -275 385 0 56 6 72 88 235 99 197 146 320 191 501 174 699 17 1434 -427 1994 -78 98 -241 264 -347 353 -312 262 -725 447 -1137 508 -99 14 -446 27 -518 18z m476 -823 c401 -82 743 -312 970 -651 360 -540 333 -1254 -66 -1769 -306 -393 -781 -612 -1274 -587 -700 35 -1268 524 -1418 1220 -18 85 -22 133 -21 296 0 170 3 210 25 310 63 286 195 534 397 744 251 259 562 412 941 460 85 11 348 -3 446 -23z">
                                     </path>
@@ -366,7 +369,7 @@
                                             </a>
                                         </li>
                                         <li class="menu-item ">
-                                            <a href="#0">
+                                            <a href="javascript:void()">
 
 
                                                 <button id="addGroupBttn" type="button" class="btn menu-item"
@@ -396,7 +399,7 @@
 
     <!--================= Mobile Menu Start =================-->
     <!--================= Mobile Menu Start Here =================-->
-    
+
     <div class="xoxo_fn_mobnav">
         <div class="mob_top">
             <div class="logo">
@@ -488,15 +491,7 @@
                                                                 preserveAspectRatio="xMidYMid meet"
                                                                 class="fn__svg  replaced-svg">
 
-                                                                <g transform="translate(0.000000,470.000000) scale(0.100000,-0.100000)"
-                                                                    stroke="none">
-                                                                    <path
-                                                                        d="M1224 4666 l-34 -34 0 -210 0 -211 -412 -3 -413 -3 -75 -36 c-136 -65 -236 -182 -272 -318 -13 -51 -17 -110 -17 -253 l-1 -188 2350 0 2350 0 0 181 c0 211 -14 288 -66 376 -54 90 -118 149 -213 196 l-84 42 -414 3 -413 3 0 211 0 210 -34 34 -34 34 -146 0 -146 0 -32 -29 -33 -29 -3 -216 -3 -216 -730 0 -729 0 0 195 c0 293 -2 295 -218 295 l-144 0 -34 -34z">
-                                                                    </path>
-                                                                    <path
-                                                                        d="M0 1802 c0 -1179 2 -1376 15 -1425 47 -182 180 -315 362 -362 50 -13 309 -15 1973 -15 2099 0 1966 -4 2089 58 73 36 163 128 201 202 63 125 60 41 60 1542 l0 1368 -2350 0 -2350 0 0 -1368z m1390 483 l0 -305 -305 0 -305 0 0 298 c0 164 3 302 7 305 3 4 141 7 305 7 l298 0 0 -305z m1260 0 l0 -305 -300 0 -300 0 0 305 0 305 300 0 300 0 0 -305z m1268 -2 l2 -303 -305 0 -305 0 0 305 0 305 303 -2 302 -3 3 -302z m-2528 -1273 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z m1260 0 l0 -300 -300 0 -300 0 0 300 0 300 300 0 300 0 0 -300z m1270 0 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z">
-                                                                    </path>
-                                                                </g>
+                                                                <i class="bi bi-people-fill"></i>
                                                             </svg>
                                                             <span class="meta_item meta_category"></span>
                                                             <span class="author m-2"><a href="#">
@@ -511,7 +506,7 @@
                                                 <div class="bottom_holder">
                                                     <div class="blog__image">
                                                         <!-- <a href="/groups/<%=groups[i]._id %>"><img src="assets/images/blog/05.jpg" alt="Post Image"></a> -->
-                                                        
+
                                                     </div>
                                                     <div class="title_holder">
                                                         <div class="title">
@@ -527,68 +522,22 @@
                                                                 <div class="btn-group">
                                                                     <!-- add contact button on individual page -->
                                                                     <button type="button"
-                                                                        class="btn btn-primary m-2 profIndiBttn"
-                                                                
+                                                                        class="btn btn-tertiary m-2 profIndiBttn"
                                                                         data-id="<%=groups[i]._id %>">
                                                                         ADD
                                                                     </button>
-
-                                                                    <!-- what pops up -->
-                                                                    <!-- <div class="modal fade" id="individualModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Contact</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form data-id="<%=groups._id %>" id="newContactForm" method="post" class="modal-body">
-          <input id="firstNameInput" type="text" class="form-control" placeholder="first name">
-          <input id="lastNameInput" type="text" class="form-control" placeholder="last name">
-          <input id="phoneInput" type="phone" class="form-control" placeholder="phone">
-          <input id="emailInput" type="text" class="form-control" placeholder="email">
-          <input id="messageInput" type="text" class="form-control" placeholder="message">
-          <label for="frequency">Select Frequency:</label>
-          <select id="timeFrame" name="frequency">
-            <option value="semi-monthly">semi-monthly</option>
-            <option value="monthly">monthly</option>
-            <option value="quarterly">quarterly</option>
-            <option value="semi-annually">semi-annually</option>
-            <option value="annually">annually</option>
-          </select>
-          <div class="modal-footer">
-            <button id="saveGroupBttn" type="submit" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
                                                                     <button data-id="<%=groups[i]._id %>" type="button"
-                                                                        
-                                                                        
-                                                                        class="btn btn-primary m-2 renameGroup">Rename</button>
+                                                                        class="btn btn-tertiary m-2 renameGroup">Rename</button>
                                                                     <button data-id="<%=groups[i]._id %>" type="button"
-                                                                        class="btn btn-primary m-2 deleteGroup">Delete</button>
+                                                                        class="btn btn-tertiary m-2 deleteGroup">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="read_more">
-                                                            <div class="read_in"><a
-                                                                    href="/groups/<%=groups[i]._id %>"><span
-                                                                        class="text">Read More</span><span
-                                                                        class="triple"></span></a></div>
+                                                            <div class="read_in">
+                                                                <a href="/groups/<%=groups[i]._id %>">
+                                                                    <span>Contacts</span></a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -605,9 +554,9 @@
                                     <div class="pag_inner"><span class="left_wing"></span><span
                                             class="right_wing"></span>
                                         <ul>
-                                            <li class="active"><span class="current">1</span></li>
-                                            <li><a href="#0" class="inactive">2</a></li>
-                                            <li><a href="#0" class="inactive">3</a></li>
+                                            <li class="active">Family</li>
+                                            <li id="friends" class="active">Friends</li>
+                                            <li class="active">Clients</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -633,21 +582,22 @@
         <div class="xoxo_fn_footer">
             <div class="footer_top">
                 <div class="container">
-                    <div class="footer_subscribe_form">
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt" height="512.000000pt"
-                            viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet"
-                            class="fn__svg  replaced-svg">
-                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
-                                <path
-                                    d="M3445 4650 c-1693 -506 -1613 -479 -1601 -545 7 -33 39 -65 65 -65 10 0 546 157 1191 350 646 192 1175 348 1177 346 2 -1 -223 -121 -500 -266 -276 -145 -869 -456 -1319 -691 l-816 -429 -234 121 c-431 224 -483 251 -491 258 -4 4 142 52 325 107 190 56 340 107 350 117 35 34 14 108 -35 121 -30 7 -881 -246 -908 -270 -22 -20 -25 -72 -7 -96 7 -9 216 -121 463 -249 248 -127 454 -235 459 -239 4 -5 44 -322 87 -707 43 -384 81 -712 84 -730 7 -37 38 -63 74 -63 20 0 119 94 461 435 l435 435 437 -235 c290 -156 447 -235 467 -235 19 0 36 8 48 24 32 40 1453 2882 1453 2905 0 29 -43 71 -72 70 -13 0 -729 -211 -1593 -469z m748 -1118 c-350 -698 -623 -1231 -630 -1229 -18 3 -1112 591 -1112 597 0 3 276 223 614 490 388 306 618 495 625 511 9 21 8 33 -4 57 -16 31 -34 42 -70 42 -23 0 -114 -71 -944 -727 -402 -319 -424 -338 -447 -388 -78 -176 -369 -795 -372 -791 -2 2 -33 255 -68 562 -47 420 -60 562 -52 570 7 6 552 293 1212 639 660 345 1242 650 1293 677 50 27 92 48 92 45 0 -3 -104 -87 -231 -187 -127 -101 -236 -193 -241 -206 -21 -46 36 -113 84 -100 13 4 212 156 443 340 231 183 421 333 423 331 1 -1 -276 -556 -615 -1233z m-1737 -808 l104 -56 -79 -86 c-44 -48 -159 -166 -256 -262 l-176 -175 46 100 c198 426 249 535 252 535 2 0 51 -25 109 -56z">
-                                </path>
-                                <path
-                                    d="M4115 1784 c-313 -55 -561 -210 -875 -545 -246 -262 -391 -401 -475 -457 -313 -208 -631 -244 -973 -112 -141 54 -308 167 -471 316 l-54 50 135 135 c222 221 250 270 192 324 -44 40 -61 33 -153 -67 -47 -51 -130 -136 -185 -189 l-101 -97 -47 42 c-192 166 -344 255 -483 283 -322 65 -636 -205 -612 -524 14 -183 139 -305 341 -334 206 -28 418 51 704 263 l93 69 92 -82 c263 -234 431 -329 682 -386 130 -30 332 -36 455 -14 171 31 343 105 489 209 120 86 208 170 405 386 235 258 340 352 487 439 163 96 330 147 510 154 223 10 392 -48 524 -180 298 -298 177 -742 -242 -891 -143 -50 -225 -60 -458 -50 -364 15 -557 11 -650 -14 -177 -48 -309 -142 -362 -259 -22 -47 -27 -73 -27 -136 -1 -71 1 -81 23 -98 55 -45 121 -10 121 64 0 149 112 251 319 293 68 13 116 15 250 10 506 -19 524 -19 630 -2 343 54 591 241 676 508 93 292 -23 602 -288 775 -173 113 -436 159 -672 117z m-3496 -470 c89 -20 205 -87 327 -189 l95 -80 -28 -23 c-121 -100 -323 -214 -438 -248 -89 -26 -216 -24 -280 5 -136 60 -193 191 -137 314 41 93 165 190 283 221 70 19 96 19 178 0z">
-                                </path>
-                            </g>
-                        </svg>
-                        <h3 class="fsf_title">Stay in the loop</h3>
-                        <p class="fsf_desc">Get the latest posts delivered right to your email.</p>
+                    <div class="footer_subscribe_form pt-3 pb-3">
+                        <div class="svg-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
+                                height="512.000000pt" viewBox="0 0 512.000000 512.000000"
+                                preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
+                                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
+                                    <path
+                                        d="M3445 4650 c-1693 -506 -1613 -479 -1601 -545 7 -33 39 -65 65 -65 10 0 546 157 1191 350 646 192 1175 348 1177 346 2 -1 -223 -121 -500 -266 -276 -145 -869 -456 -1319 -691 l-816 -429 -234 121 c-431 224 -483 251 -491 258 -4 4 142 52 325 107 190 56 340 107 350 117 35 34 14 108 -35 121 -30 7 -881 -246 -908 -270 -22 -20 -25 -72 -7 -96 7 -9 216 -121 463 -249 248 -127 454 -235 459 -239 4 -5 44 -322 87 -707 43 -384 81 -712 84 -730 7 -37 38 -63 74 -63 20 0 119 94 461 435 l435 435 437 -235 c290 -156 447 -235 467 -235 19 0 36 8 48 24 32 40 1453 2882 1453 2905 0 29 -43 71 -72 70 -13 0 -729 -211 -1593 -469z m748 -1118 c-350 -698 -623 -1231 -630 -1229 -18 3 -1112 591 -1112 597 0 3 276 223 614 490 388 306 618 495 625 511 9 21 8 33 -4 57 -16 31 -34 42 -70 42 -23 0 -114 -71 -944 -727 -402 -319 -424 -338 -447 -388 -78 -176 -369 -795 -372 -791 -2 2 -33 255 -68 562 -47 420 -60 562 -52 570 7 6 552 293 1212 639 660 345 1242 650 1293 677 50 27 92 48 92 45 0 -3 -104 -87 -231 -187 -127 -101 -236 -193 -241 -206 -21 -46 36 -113 84 -100 13 4 212 156 443 340 231 183 421 333 423 331 1 -1 -276 -556 -615 -1233z m-1737 -808 l104 -56 -79 -86 c-44 -48 -159 -166 -256 -262 l-176 -175 46 100 c198 426 249 535 252 535 2 0 51 -25 109 -56z">
+                                    </path>
+                                    <path
+                                        d="M4115 1784 c-313 -55 -561 -210 -875 -545 -246 -262 -391 -401 -475 -457 -313 -208 -631 -244 -973 -112 -141 54 -308 167 -471 316 l-54 50 135 135 c222 221 250 270 192 324 -44 40 -61 33 -153 -67 -47 -51 -130 -136 -185 -189 l-101 -97 -47 42 c-192 166 -344 255 -483 283 -322 65 -636 -205 -612 -524 14 -183 139 -305 341 -334 206 -28 418 51 704 263 l93 69 92 -82 c263 -234 431 -329 682 -386 130 -30 332 -36 455 -14 171 31 343 105 489 209 120 86 208 170 405 386 235 258 340 352 487 439 163 96 330 147 510 154 223 10 392 -48 524 -180 298 -298 177 -742 -242 -891 -143 -50 -225 -60 -458 -50 -364 15 -557 11 -650 -14 -177 -48 -309 -142 -362 -259 -22 -47 -27 -73 -27 -136 -1 -71 1 -81 23 -98 55 -45 121 -10 121 64 0 149 112 251 319 293 68 13 116 15 250 10 506 -19 524 -19 630 -2 343 54 591 241 676 508 93 292 -23 602 -288 775 -173 113 -436 159 -672 117z m-3496 -470 c89 -20 205 -87 327 -189 l95 -80 -28 -23 c-121 -100 -323 -214 -438 -248 -89 -26 -216 -24 -280 5 -136 60 -193 191 -137 314 41 93 165 190 283 221 70 19 96 19 178 0z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </div>
+                        <h3 class="fsf_title">Keep In Touch</h3>
                         <script>
                             (function () {
                                 window.mc4wp = window.mc4wp || {
@@ -663,23 +613,7 @@
                                 }
                             })();
                         </script>
-                        <!-- Mailchimp for WordPress v4.8.12 - https://wordpress.org/plugins/mailchimp-for-wp/ -->
-                        <form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-162" method="post" data-id="162"
-                            data-name="Footer Subscribe Form">
-                            <div class="mc4wp-form-fields">
-                                <div class="fn__subscribe">
-                                    <input type="email" name="EMAIL" placeholder="Your Email *" required="">
-                                    <input type="submit" value="Subscribe">
-                                </div>
-                            </div>
-                            <label style="display: none !important;">Leave this field empty if you're human:
-                                <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off">
-                            </label>
-                            <input type="hidden" name="_mc4wp_timestamp" value="1673931253">
-                            <input type="hidden" name="_mc4wp_form_id" value="162">
-                            <input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1">
-                            <div class="mc4wp-response"></div>
-                        </form><!-- / Mailchimp for WordPress Plugin -->
+
                     </div>
                 </div>
             </div>
@@ -688,10 +622,7 @@
                     <div class="footer_btm_in">
                         <span class="wing_left"></span>
                         <span class="wing_right"></span>
-                        <div class="footer_copyright">
-                            <p> © 2023 <a href="https://themeforest.net/user/reacthemes/portfolio"
-                                    target="_blank">Reacthemes</a>, All Rights Reserved. </p>
-                        </div>
+
                     </div>
                 </div>
             </div>

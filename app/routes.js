@@ -52,9 +52,32 @@ const sendReminders = (user) => {
     // smsFormat.forEach(contact => {
     //   new Reminder(contact.phone, contact.message).sendReminder()
     // })
-   
+    db.collection('groups').updateMany(
+      {
+        'user': ObjectId(user),
+        'contacts._id': { $in: smsFormat.map(contact => contact._id) }
+      },
+      [
+        {
+          $set: {
+            'contacts.$[elem].frequency.reminderDates.$[date].sent': true
+          }
+        }
+      ],
+      {
+        arrayFilters: [
+          { 'elem._id': { $in: smsFormat.map(contact => contact._id) } },
+          { 'date.newDate': moment().format('MMMM DD, YYYY') }
+        ]
+      }
+    ).then(() => {
+      // Update successful
+    }).catch(err => {
+      console.log(err);
+    });
   });
 }
+
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
     console.log(req.user)
@@ -70,13 +93,23 @@ const sendReminders = (user) => {
   });
 
    // CALENDAR PAGE =========================
-   app.get('/calendar', isLoggedIn, function (req, res) {
-    console.log(req.user)
+   app.get('/calendar',  function (req, res) {
+    // console.log(req.user)
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
       sendReminders(req.user._id)
       if (err) return console.log(err)
       res.render('calendar.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
-        user: req.user,
+        user: req?.user?? {
+          local: {
+            email: 'test@gmail.com',
+            password: '$2a$08$8MdcbXUEqhqMnVKx0AH5f.QpUVpHW.uQB9cFmJH4BRHPJKslXlBLK',
+            firstName: 'Seth',
+            lastName: 'Villa',
+            fullName: 'Seth Villa'
+          },
+          _id: '646488526b05d27fb5818be2',
+          __v: 0
+        },
         groups: result,
 
       })
@@ -87,29 +120,15 @@ const sendReminders = (user) => {
 
   app.get('/calendar/reminder', function (req, res) {
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, groups) => {
-      if (err) return console.log(err);
+      if (err) return console.log(err); 
+      //req.use._id goes in objectID above
 
-        const contacts = groups.map(group => group.contacts).reduce((accum, contact) => {
-          contact.forEach(person => {
-            const {firstName, lastName, phone, frequency:{reminderDates}} = person
-            reminderDates.forEach(date => {
-              accum[date.newDate] ? accum[date.newDate].push({
-                Name: `${firstName} ${lastName}`,
-                Phone: phone
-              }) : accum[date.newDate] = []; accum[date.newDate].push({
-                Name: `${firstName} ${lastName}`,
-                Phone: phone
-              })
-            })
-          })
-          return accum
-        }, {} )
+        const contacts = groups.map(group => group.contacts)
 
       console.log(contacts)
       // const contacts = groups.map(group => group.contacts).flat();
-  
       res.send({ 
-        user: req.user,
+        // user: req.user,
         contacts: getReminderFormat(contacts),
       });
     });
@@ -215,7 +234,7 @@ const sendReminders = (user) => {
   // posting when we add an individual contact ============
 
   app.post('/groups/contact/create', isLoggedIn, async (req, res) => {
-    const { firstName, lastName, phone, email, message, frequency, id, fileName, img, startDate } = req.body
+    const { firstName, lastName, phone, email, message, frequency, id, fileName, img, startDate, linkedIn, instagram, facebook } = req.body
     console.log(req.body)
     let secure_url = null
     let public_id = null
@@ -228,7 +247,7 @@ const sendReminders = (user) => {
         console.log(result);
         console.log(fileName);
       }
-      db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: { _id: ObjectId(), firstName, lastName, phone, email, message, frequency: { frequency, startDate, reminderDates: generateReminderDates(startDate, frequency), }, img: { public_id, fileName, secure_url } } } },
+      db.collection('groups').findOneAndUpdate({ _id: ObjectId(id) }, { $push: { contacts: { _id: ObjectId(), firstName, lastName, phone, email, message,linkedIn, instagram, facebook, frequency: { frequency, startDate, reminderDates: generateReminderDates(startDate, frequency), }, img: { public_id, fileName, secure_url } } } },
         { returnOriginal: false }, (err, result) => {
           if (err) return console.log(err)
           console.log('saved to database')
@@ -262,7 +281,7 @@ const sendReminders = (user) => {
   // updating contacts on indi page ========
 
   app.put('/groups/contact/update', isLoggedIn, async (req, res) => {
-    const { groupId, contactId, firstName, email, lastName, message, frequency, phone, startDate, publicId, img, fileName } = req.body
+    const { groupId, contactId, firstName, email, lastName, message, frequency, phone, startDate, publicId, img, fileName, linkedIn, instagram, facebook } = req.body
     // console.log(req.body)
     console.log(generateReminderDates(startDate, frequency))
     let secure_url = null
@@ -291,6 +310,9 @@ const sendReminders = (user) => {
           "contacts.$.message": message,
           "contacts.$.frequency.frequency": frequency,
           "contacts.$.frequency.startDate": startDate, 
+          "contacts.$.linkedIn": linkedIn,
+          "contacts.$.instagram": instagram,
+          "contacts.$.facebook": facebook,
           "contacts.$.frequency.reminderDates": generateReminderDates(startDate, frequency), 
           ...(img? { "contacts.$.img": {secure_url, fileName, public_id}} : {})
           

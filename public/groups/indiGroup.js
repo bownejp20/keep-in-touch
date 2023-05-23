@@ -7,11 +7,12 @@ const delContactBtn = document.querySelectorAll('.delContactBtn')
 const searchContacts = document.querySelector('#searchContacts')
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+const closeSearch = document.querySelector('.search_closer')
 
 
 //Search Contacts =========================
 
-searchContacts.addEventListener('submit', function(event) {
+searchContacts.addEventListener('submit', function (event) {
   event.preventDefault(); // Prevent default form submission
 
   var formData = new FormData(event.target); // Create FormData object with form data
@@ -21,7 +22,7 @@ searchContacts.addEventListener('submit', function(event) {
 
   // Do something with the form data
   console.log('contactSearch:', contactSearch);
-  const ul = document.querySelector('#searchList') 
+  const ul = document.querySelector('#searchList')
   ul.replaceChildren()
   fetch(`/search/contact?groupId=${event.target.dataset.id}&contactSearch=${contactSearch}`, {
     method: 'get',
@@ -29,38 +30,45 @@ searchContacts.addEventListener('submit', function(event) {
       'Content-Type': 'application/json'
     },
   })
-  .then(res => res.json())
-  .then((response) => {
-    console.log(response)
-    response.contacts.forEach((contact, index) => {
-     const li = document.createElement('li')
-     li.addEventListener('click', () =>{
-      document.querySelector('body').classList.remove('search-active')
-      location.href = "#";
-      location.href = `#${contact._id}`;
-      ul.replaceChildren()
-     })
-     const div = document.createElement('div')
-     div.classList.add('category__item')
-     const anchor = document.createElement('a')
-    //  anchor.href = `/groups/${group._id}`
-    //  anchor.classList.add('full_link')
-     const span = document.createElement('span')
-     span.classList.add('cat_title')
-     const spanChildOne = document.createElement('span')
-     spanChildOne.innerText = `${contact.firstName} - ${contact.lastName}`
-     spanChildOne.classList.add('name')
-    //  const spanChildTwo = document.createElement('span')//only have this for the yellow circle
-    //  spanChildTwo.classList.add('count')
-     ul.appendChild(li)
-     li.appendChild(div)
-     div.appendChild(anchor)
-     div.appendChild(span)
-     span.appendChild(spanChildOne)
-    //  span.appendChild(spanChildTwo)
+    .then(res => res.json())
+    .then((response) => {
+      console.log(response)
+      response.contacts.forEach((contact, index) => {
+        const li = document.createElement('li')
+        li.addEventListener('click', () => {
+          document.querySelector('body').classList.remove('search-active')
+          location.href = "#";
+          location.href = `#${contact._id}`;
+          ul.replaceChildren()
+        })
+        const div = document.createElement('div')
+        div.classList.add('category__item')
+        const anchor = document.createElement('a')
+        //  anchor.href = `/groups/${group._id}`
+        //  anchor.classList.add('full_link')
+        const span = document.createElement('span')
+        span.classList.add('cat_title')
+        const spanChildOne = document.createElement('span')
+        spanChildOne.innerText = `${contact.firstName} - ${contact.lastName}`
+        spanChildOne.classList.add('name')
+        //  const spanChildTwo = document.createElement('span')//only have this for the yellow circle
+        //  spanChildTwo.classList.add('count')
+        ul.appendChild(li)
+        li.appendChild(div)
+        div.appendChild(anchor)
+        div.appendChild(span)
+        span.appendChild(spanChildOne)
+        //  span.appendChild(spanChildTwo)
+      })
     })
-  })
 });
+
+// fix search button ====================================
+
+closeSearch.addEventListener('click', (e) => {
+  const ul = document.querySelector('#searchList')
+  ul.replaceChildren()
+})
 
 
 
@@ -70,14 +78,14 @@ searchContacts.addEventListener('submit', function(event) {
 
 Array.from(addIndiBttn).forEach(btn => {
   btn.addEventListener('click', () => {
-  individualModal.show()
-})
+    individualModal.show()
+  })
 })
 
 
 // create new contact 
 
-newContactForm.addEventListener('submit', (e) =>{ 
+newContactForm.addEventListener('submit', (e) => {
   e.preventDefault()
   console.log(e.target.dataset.id)
   const formData = new FormData()
@@ -88,9 +96,12 @@ newContactForm.addEventListener('submit', (e) =>{
   formData.append('message', document.querySelector('#messageInput').value)
   formData.append('frequency', document.querySelector('#timeFrame').value)
   formData.append('startDate', document.querySelector('#startDate').value)
+  formData.append('linkedIn', document.querySelector('#linkedIn').value)
+  formData.append('instagram', document.querySelector('#instagram').value)
+  formData.append('facebook', document.querySelector('#facebook').value)
   const targetFile = document.querySelector('#imageInput').files?.[0]
   console.log(targetFile)
-  if(targetFile){
+  if (targetFile) {
     const reader = new FileReader();
     reader.readAsDataURL(targetFile);
     reader.onload = fileReaderEvent => {
@@ -99,7 +110,7 @@ newContactForm.addEventListener('submit', (e) =>{
       formData.append('fileName', targetFile.name)
       fetch('/groups/contact/create', {
         method: 'post',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: formData.get('firstName'),
           lastName: formData.get('lastName'),
@@ -110,24 +121,28 @@ newContactForm.addEventListener('submit', (e) =>{
           frequency: formData.get('frequency'),
           img: formData.get('img'),
           fileName: formData.get('fileName'),
+          linkedIn: formData.get('linkedIn'),
+          instagram: formData.get('instagram'),
+          facebook: formData.get('facebook'),
+
           id: e.target.dataset.id
         })
       })
-          .then(response => {
-            if (response.ok) return response.json()
-          })
-          .then(data => {
-            console.log(data)
-            individualModal.hide()
-          })
+        .then(response => {
+          if (response.ok) return response.json()
+        })
+        .then(data => {
+          console.log(data)
+          individualModal.hide()
+        })
     };
     reader.onerror = () => {
       console.log(reader.error);
     };
-  }else{
+  } else {
     fetch('/groups/contact/create', {
       method: 'post',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
@@ -138,47 +153,79 @@ newContactForm.addEventListener('submit', (e) =>{
         frequency: formData.get('frequency'),
         img: formData.get('img'),
         fileName: formData.get('fileName'),
+        linkedIn: formData.get('linkedIn'),
+        instagram: formData.get('instagram'),
+        facebook: formData.get('facebook'),
         id: e.target.dataset.id
       })
     })
-        .then(response => {
-          if (response.ok) return response.json()
-        })
-        .then(data => {
-          console.log(data)
-          individualModal.hide()
-        })
-  };   
+      .then(response => {
+        if (response.ok) return response.json()
+      })
+      .then(data => {
+        console.log(data)
+        individualModal.hide()
+        location.reload()
+      })
+  };
 });
 
 
 //updating contact ===========
 
-Array.from(updateContactForms).forEach(contact =>{
-  contact.addEventListener('submit', (e) =>{ 
-  e.preventDefault()
-  const formData = new FormData(e.target)
-  // formData.append('firstName', document.querySelector('#firstNameInput').value)
-  // formData.append('lastName', document.querySelector('#lastNameInput').value)
-  // formData.append('phone', document.querySelector('#phoneInput').value)
-  // formData.append('email', document.querySelector('#emailInput').value)
-  // formData.append('message', document.querySelector('#messageInput').value)
-  // formData.append('frequency', document.querySelector('#timeFrame').value)
-  const targetFile = formData.get('upload')
-  console.log(formData.get('upload').files)
-  for (const pair of formData.entries()) {
-    console.log(`${pair[0]}, ${pair[1]}`);
-  }
-  if(targetFile.name){
-    const reader = new FileReader();
-    reader.readAsDataURL(targetFile);
-    reader.onload = fileReaderEvent => {
-      console.log(fileReaderEvent, 'file');
-      formData.append('img', fileReaderEvent.target.result)
-      formData.append('fileName', targetFile.name)
+Array.from(updateContactForms).forEach(contact => {
+  contact.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const targetFile = formData.get('upload')
+    console.log(formData.get('upload').files)
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
+    if (targetFile.name) {
+      const reader = new FileReader();
+      reader.readAsDataURL(targetFile);
+      reader.onload = fileReaderEvent => {
+        console.log(fileReaderEvent, 'file');
+        formData.append('img', fileReaderEvent.target.result)
+        formData.append('fileName', targetFile.name)
+        fetch('/groups/contact/update', {
+          method: 'put',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            phone: formData.get('phone'),
+            email: formData.get('email'),
+            message: formData.get('message'),
+            startDate: formData.get('startDate'),
+            frequency: formData.get('frequency'),
+            img: formData.get('img'),
+            fileName: formData.get('fileName'),
+            linkedIn: formData.get('linkedIn'),
+            instagram: formData.get('instagram'),
+            facebook: formData.get('facebook'),
+            groupId: e.target.dataset.groupid,
+            contactId: e.target.dataset.contactid,
+            publicId: e.target.dataset.publicid
+          })
+        })
+          .then(response => {
+            if (response.ok) return response.json()
+          })
+          .then(data => {
+            console.log(data)
+            individualModal.hide()
+            location.reload()
+          })
+      };
+      reader.onerror = () => {
+        console.log(reader.error);
+      };
+    } else {
       fetch('/groups/contact/update', {
         method: 'put',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: formData.get('firstName'),
           lastName: formData.get('lastName'),
@@ -187,52 +234,27 @@ Array.from(updateContactForms).forEach(contact =>{
           message: formData.get('message'),
           startDate: formData.get('startDate'),
           frequency: formData.get('frequency'),
-          img: formData.get('img'),
-          fileName: formData.get('fileName'),
+          // img: formData.get('img'),
+          // fileName: formData.get('fileName'),
+          linkedIn: formData.get('linkedIn'),
+          instagram: formData.get('instagram'),
+          facebook: formData.get('facebook'),
           groupId: e.target.dataset.groupid,
           contactId: e.target.dataset.contactid,
           publicId: e.target.dataset.publicid
         })
       })
-          .then(response => {
-            if (response.ok) return response.json()
-          })
-          .then(data => {
-            console.log(data)
-            individualModal.hide()
-          })
-    };
-    reader.onerror = () => {
-      console.log(reader.error);
-    };
-  }else{
-    fetch('/groups/contact/update', {
-      method: 'put',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        phone: formData.get('phone'),
-        email: formData.get('email'),
-        message: formData.get('message'),
-        startDate: formData.get('startDate'),
-        frequency: formData.get('frequency'),
-        // img: formData.get('img'),
-        // fileName: formData.get('fileName'),
-        groupId: e.target.dataset.groupid,
-        contactId: e.target.dataset.contactid,
-        publicId: e.target.dataset.publicid
-      })
-    })
         .then(response => {
           if (response.ok) return response.json()
         })
         .then(data => {
+
           console.log(data)
           individualModal.hide()
+          location.reload()
         })
-  };
-})  
+    };
+  })
 });
 
 
@@ -243,13 +265,13 @@ Array.from(updateContactForms).forEach(contact =>{
 
 
 
- // for (const value of formData.values()) {
-  //   console.log(value);
-  // }
+// for (const value of formData.values()) {
+//   console.log(value);
+// }
 
-  // DELETE Contact BUTTON
+// DELETE Contact BUTTON
 
-Array.from(delContactBtn).forEach( bttn => {
+Array.from(delContactBtn).forEach(bttn => {
   bttn.addEventListener('click', (e) => {
     console.log(e.target.dataset)
     fetch('/groups/contact/delete', {

@@ -24,7 +24,9 @@ function openModal(date) {
   backDrop.style.display = 'block';
 }
 
-function load() {
+// squares in calendar are created
+
+async function load() {
   const dt = new Date();
 
   if (nav !== 0) {
@@ -34,10 +36,28 @@ function load() {
   const day = dt.getDate();
   const month = dt.getMonth();
   const year = dt.getFullYear();
+  console.log(day, month, year)
+  console.log(new Date('May 23, 2023'))
 
   const firstDayOfMonth = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  
+  const monthEvents = {}
+  const response = await fetch('/calendar/reminder', { //
+    method: 'get',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  const data = await response.json()
+  for (let date in data.contacts) {
+    const eventDate = new Date(date)
+    eventMonth = eventDate.getMonth()
+    eventYear = eventDate.getFullYear()
+    eventDay = eventDate.getDay() 
+    if (eventMonth === month && eventYear === year) {
+      console.log((eventDay + 1).toString())
+      monthEvents[(eventDay + 1).toString()] = data.contacts[date]
+    }
+  }
+console.log(monthEvents, data)
   const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
     weekday: 'long',
     year: 'numeric',
@@ -46,16 +66,18 @@ function load() {
   });
   const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
 
-  document.getElementById('monthDisplay').innerText = 
+  document.getElementById('monthDisplay').innerText =
     `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
 
   calendar.innerHTML = '';
 
-  for(let i = 1; i <= paddingDays + daysInMonth; i++) {
+  for (let i = 1; i <= paddingDays + daysInMonth; i++) {
     const daySquare = document.createElement('li');
     daySquare.classList.add('day');
 
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+    console.log('day format', dateString)
+
 
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
@@ -71,13 +93,22 @@ function load() {
         eventDiv.innerText = eventForDay.title;
         daySquare.appendChild(eventDiv);
       }
+      console.log(monthEvents[i.toString()], i)
+      if (monthEvents[i.toString()]) {
+        monthEvents[i].forEach(event => {
+          const eventDiv = document.createElement('div');
+          eventDiv.classList.add('event');
+          eventDiv.innerText = `${event.Name} : ${event.Phone}`;
+          daySquare.appendChild(eventDiv);
+        })
+      }
 
       daySquare.addEventListener('click', () => openModal(dayString));
     } else {
       daySquare.classList.add('padding');
     }
 
-    calendar.appendChild(daySquare);    
+    calendar.appendChild(daySquare);
   }
 }
 

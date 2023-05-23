@@ -17,6 +17,7 @@ const editBttn = document.querySelector('#editBttn')
 const editName = document.querySelector('#editNameInput')
 const editDescription = document.querySelector('#editDescriptionInput')
 const saveIndiBttnProfile = document.querySelector('#saveIndiBttnProfile')
+const closeSearch = document.querySelector('.search_closer')
 
 
 console.log('hi seth', saveGroupBttn)
@@ -33,7 +34,7 @@ Array.from(addGroupBttn).forEach(btn => {
 
 saveGroupBttn.addEventListener('click', (e) => {
   e.preventDefault()
-  fetch('group/create', { //
+  fetch('/group/create', { //
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -47,6 +48,7 @@ saveGroupBttn.addEventListener('click', (e) => {
     .then(data => {
       console.log(data)
       groupModal.hide()
+      location.reload()
     })
 });
 
@@ -64,7 +66,7 @@ Array.from(renameGroupBttns).forEach(btn => {
 editBttn.addEventListener('click', (e) => {
   e.preventDefault()
   console.log(currentEditId)
-  fetch('groups/update', { 
+  fetch('groups/update', {
     method: 'put',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -79,6 +81,7 @@ editBttn.addEventListener('click', (e) => {
     .then(data => {
       console.log(data)
       editModal.hide()
+      location.reload()
     })
 });
 
@@ -86,55 +89,62 @@ editBttn.addEventListener('click', (e) => {
 // SEARCH BUTTON
 
 
-  searchGroups.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-  
-    var formData = new FormData(event.target); // Create FormData object with form data
-  
-    // Access form data using FormData methods
-    var groupSearch = formData.get('search'); //formData.get('search') is the same as document.queryselector.(), 
-  
-    // Do something with the form data
-    console.log('groupSearch:', groupSearch);
-    const ul = document.querySelector('#searchList') 
-    ul.replaceChildren()
-    fetch(`/search/groups?groupName=${groupSearch}`, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
+searchGroups.addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent default form submission
+
+  var formData = new FormData(event.target); // Create FormData object with form data
+
+  // Access form data using FormData methods
+  var groupSearch = formData.get('search'); //formData.get('search') is the same as document.queryselector.(), 
+
+  // Do something with the form data
+  console.log('groupSearch:', groupSearch);
+  const ul = document.querySelector('#searchList')
+  ul.replaceChildren()
+  fetch(`/search/groups?groupName=${groupSearch}`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
     .then(res => res.json())
     .then((response) => {
       console.log(response)
       response.groups.forEach((group, index) => {
-       const li = document.createElement('li')
-       const div = document.createElement('div')
-       div.classList.add('category__item')
-       const anchor = document.createElement('a')
-       anchor.href = `/groups/${group._id}`
-       anchor.classList.add('full_link')
-       const span = document.createElement('span')
-       span.classList.add('cat_title')
-       const spanChildOne = document.createElement('span')
-       spanChildOne.innerText = `${group.groupName} - ${group.description}`
-       spanChildOne.classList.add('name')
-      //  const spanChildTwo = document.createElement('span')//only have this for the yellow circle
-      //  spanChildTwo.classList.add('count')
-       ul.appendChild(li)
-       li.appendChild(div)
-       div.appendChild(anchor)
-       div.appendChild(span)
-       span.appendChild(spanChildOne)
-      //  span.appendChild(spanChildTwo)
+        const li = document.createElement('li')
+        const div = document.createElement('div')
+        div.classList.add('category__item')
+        const anchor = document.createElement('a')
+        anchor.href = `/groups/${group._id}`
+        anchor.classList.add('full_link')
+        const span = document.createElement('span')
+        span.classList.add('cat_title')
+        const spanChildOne = document.createElement('span')
+        spanChildOne.innerText = `${group.groupName} - ${group.description}`
+        spanChildOne.classList.add('name')
+        //  const spanChildTwo = document.createElement('span')//only have this for the yellow circle
+        //  spanChildTwo.classList.add('count')
+        ul.appendChild(li)
+        li.appendChild(div)
+        div.appendChild(anchor)
+        div.appendChild(span)
+        span.appendChild(spanChildOne)
+        //  span.appendChild(spanChildTwo)
       })
     })
-  });
+});
+
+// fix search button ==========================
+
+closeSearch.addEventListener('click', (e) => {
+  const ul = document.querySelector('#searchList')
+  ul.replaceChildren()
+})
 
 
 // DELETE BUTTON
 
-Array.from(deleteGroupBttns).forEach( bttn => {
+Array.from(deleteGroupBttns).forEach(bttn => {
   bttn.addEventListener('click', (e) => {
     console.log(e.target.dataset.id)
     fetch('groups', {
@@ -175,7 +185,7 @@ Array.from(addIndiBttn).forEach(bttn => {
 
 // adding indi contact to a group =====================
 
-newContactForm.addEventListener('submit', (e) =>{ 
+newContactForm.addEventListener('submit', (e) => {
   e.preventDefault()
   console.log(currentAddContactId, 'contact ID')
   const formData = new FormData()
@@ -186,68 +196,77 @@ newContactForm.addEventListener('submit', (e) =>{
   formData.append('message', document.querySelector('#messageInput').value)
   formData.append('frequency', document.querySelector('#timeFrame').value)
   formData.append('startDate', document.querySelector('#startDate').value)
+  formData.append('linkedIn', document.querySelector('#linkedIn').value)
+  formData.append('instagram', document.querySelector('#instagram').value)
+  formData.append('facebook', document.querySelector('#facebook').value)
   const targetFile = document.querySelector('#imageInput').files?.[0]
   console.log(targetFile)
-  if(targetFile){
+  if (targetFile) {
     const reader = new FileReader();
     reader.readAsDataURL(targetFile);
     reader.onload = fileReaderEvent => {
       console.log(fileReaderEvent, 'file');
       formData.append('img', fileReaderEvent.target.result)
       formData.append('fileName', targetFile.name)
-  fetch('groups/contact/create', { 
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      phone: formData.get('phone'),
-      email: formData.get('email'),
-      message: formData.get('message'),
-      frequency: formData.get('frequency'),
-      img: formData.get('img'),
-      fileName: formData.get('fileName'),
-      id: currentAddContactId
-      
+      fetch('groups/contact/create', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+          phone: formData.get('phone'),
+          email: formData.get('email'),
+          message: formData.get('message'),
+          frequency: formData.get('frequency'),
+          img: formData.get('img'),
+          fileName: formData.get('fileName'),
+          linkedIn: formData.get('linkedIn'),
+          instagram: formData.get('instagram'),
+          facebook: formData.get('facebook'),
+          id: currentAddContactId
+
+        })
+      })
+        .then(response => {
+          if (response.ok) return response.json()
+        })
+        .then(data => {
+          console.log(data)
+          currentAddContactId = ''
+          individualModal.hide()
+        })
+    };
+    reader.onerror = () => {
+      console.log(reader.error);
+    };
+  } else {
+    fetch('/groups/contact/create', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        phone: formData.get('phone'),
+        email: formData.get('email'),
+        message: formData.get('message'),
+        startDate: formData.get('startDate'),
+        frequency: formData.get('frequency'),
+        img: formData.get('img'),
+        fileName: formData.get('fileName'),
+        linkedIn: formData.get('linkedIn'),
+        instagram: formData.get('instagram'),
+        facebook: formData.get('facebook'),
+        id: currentAddContactId
+      })
     })
-  })
-  .then(response => {
-    if (response.ok) return response.json()
-  })
-  .then(data => {
-    console.log(data)
-    currentAddContactId = ''
-    individualModal.hide()
-  })
-};
-reader.onerror = () => {
-  console.log(reader.error);
-};
-}else{
-fetch('/groups/contact/create', {
-  method: 'post',
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify({
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-    phone: formData.get('phone'),
-    email: formData.get('email'),
-    message: formData.get('message'),
-    startDate: formData.get('startDate'),
-    frequency: formData.get('frequency'),
-    img: formData.get('img'),
-    fileName: formData.get('fileName'),
-    id: e.target.dataset.id
-  })
-})
-    .then(response => {
-      if (response.ok) return response.json()
-    })
-    .then(data => {
-      console.log(data)
-      individualModal.hide()
-    })
-};   
+      .then(response => {
+        if (response.ok) return response.json()
+      })
+      .then(data => {
+        console.log(data)
+        individualModal.hide()
+      })
+  };
 });
 
 
