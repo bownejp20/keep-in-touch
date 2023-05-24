@@ -62,7 +62,7 @@ module.exports = function (app, passport, db, ObjectId) {
       smsFormat.forEach(contact => {    
         console.log(contact.phone)
         new Reminder(process.env.Jessica_Number, contact.message).sendReminder()
-      })      WHEN READY UNCOMMENT HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      })      
 
   
       db.collection('groups').updateMany(
