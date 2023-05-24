@@ -377,7 +377,7 @@ input[type=number]:focus {
 
 #keepLogo {
   height: 150px;
-  animation: animateLogo 3s ease-in-out 3 alternate;
+  animation: animateLogo 3s ease-in-out 2 alternate;
 }
 
 @keyframes animateLogo {
@@ -7987,9 +7987,24 @@ margin: auto;
 .svg-container {
   animation: flyAnimation 4s ease-in-out 2;
 }
+.rocket{
+  width: 80px;
+  height:auto
+}
+.logout{
+  color:black;
+  font-weight: 600;
+}
+.rocketMobile{
+  width: 50px;
+  height:auto;
+  margin-top: 10px;
+}
 
 
 
 
 /* ======== CSS FOR CALENDAR ================ */
+
+
 

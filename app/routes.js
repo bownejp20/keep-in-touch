@@ -14,69 +14,67 @@ module.exports = function (app, passport, db, ObjectId) {
 
   //  Sending reminders out ==================================
 
-const sendReminders = (user) => {
-  db.collection('groups').aggregate([
-    {
-      $match: {
-        'user': ObjectId(user)
-      }
-    },
-    {
-      $unwind: "$contacts"
-    },
-    {
-      $match: {
-        // $or: [
-          // { 'contacts.firstName': { $regex: contactSearch, $options: 'i' } },
-          // { 'contacts.lastName': { $regex: contactSearch, $options: 'i' } },
-          // { 'contacts.phone': { $regex: contactSearch, $options: 'i' } },
-          'contacts.frequency.reminderDates.newDate': moment().format('MMMM DD, YYYY'),
-          'contacts.frequency.reminderDates.sent': false 
-        // ]
-      }
-    },
-    {
-      $group: {
-        _id: "$_id",
-        contacts: { $push: "$contacts" }
-      }
-    }
-  ]).toArray((err, result) => {
-    if (err) return console.log(err);
-    const contacts = result.length > 0 ? result[0].contacts : [];
-    const smsFormat = contacts.map(({firstName, lastName, phone, message, _id}) => {
-      return {firstName, lastName, phone:'+1'+phone, message:`Reminder to call ${firstName} ${lastName}`, _id}
-
-    });
-    // console.log(smsFormat)
-    // smsFormat.forEach(contact => {
-    //   new Reminder(contact.phone, contact.message).sendReminder()
-    // })
-    db.collection('groups').updateMany(
+  const sendReminders = (user) => {
+    db.collection('groups').aggregate([
       {
-        'user': ObjectId(user),
-        'contacts._id': { $in: smsFormat.map(contact => contact._id) }
-      },
-      [
-        {
-          $set: {
-            'contacts.$[elem].frequency.reminderDates.$[date].sent': true
-          }
+        $match: {
+          'user': ObjectId(user)
         }
-      ],
+      },
       {
-        arrayFilters: [
-          { 'elem._id': { $in: smsFormat.map(contact => contact._id) } },
-          { 'date.newDate': moment().format('MMMM DD, YYYY') }
-        ]
+        $unwind: "$contacts"
+      },
+      {
+        $match: {
+          // $or: [
+            // { 'contacts.firstName': { $regex: contactSearch, $options: 'i' } },
+            // { 'contacts.lastName': { $regex: contactSearch, $options: 'i' } },
+            // { 'contacts.phone': { $regex: contactSearch, $options: 'i' } },
+            'contacts.frequency.reminderDates.newDate': moment().format('MMMM DD, YYYY'),
+            'contacts.frequency.reminderDates.sent': false 
+          // ]
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          contacts: { $push: "$contacts" }
+        }
       }
-    ).then(() => {
-      // Update successful
-    }).catch(err => {
-      console.log(err);
+    ]).toArray((err, result) => {
+      if (err) return console.log(err);
+      const contacts = result.length > 0 ? result[0].contacts : [];
+      const smsFormat = contacts.map(({firstName, lastName, phone, message, _id, frequency: {reminderDates}}) => {
+        console.log(reminderDates)
+        return {firstName, lastName, phone:'+1'+phone, message:`Reminder to call ${firstName} ${lastName}`, _id}
+  
+      });
+      // console.log(smsFormat)
+      // smsFormat.forEach(contact => {
+      //   new Reminder(contact.phone, contact.message).sendReminder()
+      // })
+
+  
+      db.collection('groups').updateMany(
+          {
+            'user': ObjectId(user),
+            'contacts._id': { $in: smsFormat.map(contact => contact._id) }
+          },
+          {
+            $set: {
+              'contacts.$[elem].frequency.reminderDates.$[date].sent': true
+            }
+          },
+          {
+            arrayFilters: [
+              { 'elem._id': { $in: smsFormat.map(contact => contact._id) } },
+              { 'date.newDate': moment().format('MMMM DD, YYYY') }
+            ]
+          }
+      )
     });
-  });
-}
+  }
+
 
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
@@ -125,7 +123,7 @@ const sendReminders = (user) => {
 
         const contacts = groups.map(group => group.contacts)
 
-      console.log(contacts)
+      console.log('contacts', contacts)
       // const contacts = groups.map(group => group.contacts).flat();
       res.send({ 
         // user: req.user,
@@ -142,6 +140,7 @@ const sendReminders = (user) => {
       res.send('404 your fault!')
       return
     }
+    sendReminders(req.user._id)
     const { id } = req.params // params represent the path name that we destructured 
     db.collection('groups').find({ _id: ObjectId(id) }).toArray((err, result) => {
       if (err) return console.log(err)
@@ -362,8 +361,7 @@ const sendReminders = (user) => {
     res.redirect('/');
   });
 
-
-
+  
 
   // =============================================================================
   // AUTHENTICATE (FIRST LOGIN) ==================================================

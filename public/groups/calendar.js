@@ -8,8 +8,17 @@ const deleteEventModal = document.getElementById('deleteEventModal');
 const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const listOfContacts = document.querySelector('.contactModal')
 
-function openModal(date) {
+function openModal(date, contacts) {
+  console.log(contacts)
+  if (contacts) {
+    contacts.forEach(contact => {
+      const li = document.createElement('li')
+      li.innerText = `${contact.Name}: ${contact.Phone}`;
+      listOfContacts.appendChild(li)
+    })
+  }
   clicked = date;
 
   const eventForDay = events.find(e => e.date === clicked);
@@ -41,23 +50,27 @@ async function load() {
 
   const firstDayOfMonth = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const monthEvents = {}
   const response = await fetch('/calendar/reminder', { //
     method: 'get',
     headers: { 'Content-Type': 'application/json' },
   })
   const data = await response.json()
+  const monthEvents = {}
+  console.log(data)
   for (let date in data.contacts) {
+    console.log(date)
     const eventDate = new Date(date)
     eventMonth = eventDate.getMonth()
     eventYear = eventDate.getFullYear()
-    eventDay = eventDate.getDay() 
+    eventDay = eventDate.getDate()
+    console.log(eventDay)
+    console.log(eventDate)
+    
     if (eventMonth === month && eventYear === year) {
-      console.log((eventDay + 1).toString())
-      monthEvents[(eventDay + 1).toString()] = data.contacts[date]
+      monthEvents[(eventDay).toString()] = data.contacts[date]
     }
   }
-console.log(monthEvents, data)
+  // console.log(monthEvents, data)
   const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
     weekday: 'long',
     year: 'numeric',
@@ -76,7 +89,7 @@ console.log(monthEvents, data)
     daySquare.classList.add('day');
 
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
-    console.log('day format', dateString)
+    // console.log('day format', dateString)
 
 
     if (i > paddingDays) {
@@ -93,17 +106,21 @@ console.log(monthEvents, data)
         eventDiv.innerText = eventForDay.title;
         daySquare.appendChild(eventDiv);
       }
-      console.log(monthEvents[i.toString()], i)
-      if (monthEvents[i.toString()]) {
-        monthEvents[i].forEach(event => {
+
+      // creating the events for the calendar===============================
+
+      // console.log(monthEvents[i-paddingDays], i-paddingDays, i)
+      if (monthEvents[i - paddingDays]) {
+        monthEvents[i - paddingDays].forEach(event => {
           const eventDiv = document.createElement('div');
           eventDiv.classList.add('event');
-          eventDiv.innerText = `${event.Name} : ${event.Phone}`;
+          eventDiv.innerText = `${event.Name}: 
+                                ${event.Phone}`;
           daySquare.appendChild(eventDiv);
         })
       }
 
-      daySquare.addEventListener('click', () => openModal(dayString));
+      daySquare.addEventListener('click', () => openModal(dayString, monthEvents[i - paddingDays]));
     } else {
       daySquare.classList.add('padding');
     }
@@ -112,6 +129,8 @@ console.log(monthEvents, data)
   }
 }
 
+//closes the modal when checking people
+
 function closeModal() {
   eventTitleInput.classList.remove('error');
   newEventModal.style.display = 'none';
@@ -119,30 +138,33 @@ function closeModal() {
   backDrop.style.display = 'none';
   eventTitleInput.value = '';
   clicked = null;
-  load();
+  listOfContacts.replaceChildren()
+
 }
 
-function saveEvent() {
-  if (eventTitleInput.value) {
-    eventTitleInput.classList.remove('error');
 
-    events.push({
-      date: clicked,
-      title: eventTitleInput.value,
-    });
 
-    localStorage.setItem('events', JSON.stringify(events));
-    closeModal();
-  } else {
-    eventTitleInput.classList.add('error');
-  }
-}
+// function saveEvent() {
+//   if (eventTitleInput.value) {
+//     eventTitleInput.classList.remove('error');
 
-function deleteEvent() {
-  events = events.filter(e => e.date !== clicked);
-  localStorage.setItem('events', JSON.stringify(events));
-  closeModal();
-}
+//     events.push({
+//       date: clicked,
+//       title: eventTitleInput.value,
+//     });
+
+//     localStorage.setItem('events', JSON.stringify(events));
+//     closeModal();
+//   } else {
+//     eventTitleInput.classList.add('error');
+//   }
+// }
+
+// function deleteEvent() {
+//   events = events.filter(e => e.date !== clicked);
+//   localStorage.setItem('events', JSON.stringify(events));
+//   closeModal();
+// }
 
 function initButtons() {
   document.getElementById('nextButton').addEventListener('click', () => {
@@ -155,9 +177,9 @@ function initButtons() {
     load();
   });
 
-  document.getElementById('saveButton').addEventListener('click', saveEvent);
+  // document.getElementById('saveButton').addEventListener('click', saveEvent);
   document.getElementById('cancelButton').addEventListener('click', closeModal);
-  document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+  // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
   document.getElementById('closeButton').addEventListener('click', closeModal);
 }
 
