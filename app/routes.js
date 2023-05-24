@@ -27,13 +27,12 @@ module.exports = function (app, passport, db, ObjectId) {
       },
       {
         $match: {
-          // $or: [
-            // { 'contacts.firstName': { $regex: contactSearch, $options: 'i' } },
-            // { 'contacts.lastName': { $regex: contactSearch, $options: 'i' } },
-            // { 'contacts.phone': { $regex: contactSearch, $options: 'i' } },
-            'contacts.frequency.reminderDates.newDate': moment().format('MMMM DD, YYYY'),
-            'contacts.frequency.reminderDates.sent': false 
-          // ]
+          'contacts.frequency.reminderDates': {
+            $elemMatch: {
+              'newDate': moment().format('MMMM DD, YYYY'),
+              'sent': false
+            }
+          }
         }
       },
       {
@@ -41,7 +40,16 @@ module.exports = function (app, passport, db, ObjectId) {
           _id: "$_id",
           contacts: { $push: "$contacts" }
         }
-      }
+      },
+      // {
+      //   $match: {
+      //     'contacts.frequency.reminderDates': {
+      //       $elemMatch: {
+      //         'sent': false
+      //       }
+      //     }
+      //   }
+      // }
     ]).toArray((err, result) => {
       if (err) return console.log(err);
       const contacts = result.length > 0 ? result[0].contacts : [];
@@ -51,17 +59,18 @@ module.exports = function (app, passport, db, ObjectId) {
   
       });
       console.log(smsFormat)
-      smsFormat.forEach(contact => {
-        console.log(contact.phone)
-        new Reminder(process.env.Jessica_Number, contact.message).sendReminder()
-      })
+      // smsFormat.forEach(contact => {    
+      //   console.log(contact.phone)
+      //   new Reminder(process.env.Jessica_Number, contact.message).sendReminder()
+      // })      WHEN READY UNCOMMENT HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   
       db.collection('groups').updateMany(
-          {
-            'user': ObjectId(user._id),
-            'contacts._id': { $in: smsFormat.map(contact => contact._id) }
-          },
+        {
+          'user': ObjectId(user._id),
+          'contacts._id': { $in: smsFormat.map(contact => contact._id) },
+          'contacts.frequency.reminderDates.sent': false
+        },
           {
             $set: {
               'contacts.$[elem].frequency.reminderDates.$[date].sent': true
