@@ -54,8 +54,6 @@
                       </a>
                     </li>
 
-
-                    </li>
                     <li class="menu-item ">
                       <a href="/calendar">
                         <span>
@@ -122,14 +120,12 @@
                 <div class="wid-title">
                   <h1 class="text d-flex justify-content-center mt-5 ">Contacts</h1>
                   <span class="icon"></span>
-
                 </div>
                 <div class="xoxo_fn_ccategories">
                   <ul id="searchList">
 
                   </ul>
                 </div>
-
               </div>
             </div>
           </div>
@@ -175,8 +171,8 @@
             </div>
           </div>
           <div>
-            <a class="logout" href="/logout"> <img class="rocket" src="/img/rocket.gif"/>Logout</a>
-        </div>
+            <a class="logout" href="/logout"> <img class="rocket" src="/img/rocket.gif" />Logout</a>
+          </div>
           <!--================= Nav Start =================-->
           <div class="header_bottom">
             <div class="bottom_fixer">
@@ -342,10 +338,8 @@
         </div>
       </div>
     </div>
-    <!--================= Mobile Menu Start Here =================-->
-    <!--================= Mobile Menu End =================-->
 
-    <!--================= Breadcrumbs Start =================-->
+
     <!--================= Breadcrumbs Start Here =================-->
     <div class="xoxo_fn_pagetitle">
       <div class="container">
@@ -366,10 +360,7 @@
       </div>
     </div>
 
-
-
-    <!-- add contact button on individual page -->
-
+    <!-- ADD CONTACT BUTTON ON INDIVIDUAL PAGE =======================  -->
 
     <!-- what pops up -->
     <div class="modal fade" id="individualModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -409,30 +400,12 @@
     </div>
 
 
+    <!--================= CONTACT SECTION START =================-->
 
-
-
-
-
-
-
-
-
-    <!--================= Breadcrumbs End Here =================-->
-    <!--================= Breadcrumbs End =================-->
-
-
-    <!--================= Contact Section Start =================-->
     <div class="xoxo_fn_full_page_in">
       <div class="xoxo_fn_hassidebar">
         <div class="container">
           <div class="sidebarpage flex-wrap">
-
-
-
-
-
-
 
             <% for(var i=0; i<groups?.contacts?.length; i++) {%> <!-- groups.contacts is the array of people -->
 
@@ -494,7 +467,7 @@
                               </li>
                               <li>
                                 <a href="<%=groups?.contacts[i]?.linkedIn%>">
-                                  
+
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-linkedin" viewBox="0 0 16 16">
                                     <path
@@ -527,16 +500,12 @@
                         </div>
                       </div>
                     </div>
-
-
-
-
                   </div>
                 </div>
               </div>
 
 
-              <!-- modal that shows indi contact info that you can update -->
+              <!-- UPDATE INDIVIDUAL CONTACT MODAL ============================ -->
 
 
               <div class="modal fade" id="myModal-<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -593,25 +562,17 @@
                         <input name="linkedIn" type="url" class="form-control m-2" placeholder="LinkedIn">
                         <input name="instagram" type="url" class="form-control m-2" placeholder="Instagram">
                         <input name="facebook" type="url" class="form-control m-2" placeholder="Facebook">
-                        <input type="submit" data-contactId='<%=groups.contacts[i]._id%>'
-                          data-groupId='<%=groups._id%>' 
-                        class="btn btn-primary m-auto mt-3 d-flex justify-content-center updateBttn" value='Update' />
+                        <input type="submit" data-contactId='<%=groups.contacts[i]._id%>' data-groupId='<%=groups._id%>'
+                          class="btn btn-primary m-auto mt-3 d-flex justify-content-center updateBttn" value='Update' />
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
-
-
-
               <% } %>
-
-
           </div>
         </div>
       </div>
-
-
     </div>
 
 
@@ -718,7 +679,7 @@
       integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
       crossorigin="anonymous"></script>
     <script src="/groups/indiGroup.js"></script>
-    <script src="/groups/logout.js"></script>
+    
   </body>
 
 </html>

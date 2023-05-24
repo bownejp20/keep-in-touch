@@ -18,7 +18,7 @@ module.exports = function (app, passport, db, ObjectId) {
     db.collection('groups').aggregate([
       {
         $match: {
-          'user': ObjectId(user)
+          'user': ObjectId(user._id)
         }
       },
       {
@@ -49,10 +49,11 @@ module.exports = function (app, passport, db, ObjectId) {
         return {firstName, lastName, phone:'+1'+phone, message:`Reminder to call ${firstName} ${lastName}`, _id}
   
       });
-      // console.log(smsFormat)
-      // smsFormat.forEach(contact => {
-      //   new Reminder(contact.phone, contact.message).sendReminder()
-      // })
+      console.log(smsFormat)
+      smsFormat.forEach(contact => {
+        console.log(contact.phone)
+        new Reminder(user.phone, contact.message).sendReminder()
+      })
 
   
       db.collection('groups').updateMany(
@@ -80,7 +81,7 @@ module.exports = function (app, passport, db, ObjectId) {
   app.get('/profile', isLoggedIn, function (req, res) {
     console.log(req.user)
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
-      sendReminders(req.user._id)
+      sendReminders(req.user)
       if (err) return console.log(err)
       res.render('profile.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
         user: req.user,
@@ -94,7 +95,7 @@ module.exports = function (app, passport, db, ObjectId) {
    app.get('/calendar',  function (req, res) {
     // console.log(req.user)
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
-      sendReminders(req.user._id)
+      sendReminders(req.user)
       if (err) return console.log(err)
       res.render('calendar.ejs', { //groups an use are being thrown into the profile.ejs file which is when we are able to use it there
         user: req?.user?? {
@@ -140,7 +141,7 @@ module.exports = function (app, passport, db, ObjectId) {
       res.send('404 your fault!')
       return
     }
-    sendReminders(req.user._id)
+    sendReminders(req.user)
     const { id } = req.params // params represent the path name that we destructured 
     db.collection('groups').find({ _id: ObjectId(id) }).toArray((err, result) => {
       if (err) return console.log(err)

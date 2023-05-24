@@ -10,7 +10,7 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 const closeSearch = document.querySelector('.search_closer')
 
 
-//Search Contacts =========================
+//SEARCH CONTACTS =========================
 
 searchContacts.addEventListener('submit', function (event) {
   event.preventDefault(); // Prevent default form submission
@@ -63,7 +63,7 @@ searchContacts.addEventListener('submit', function (event) {
     })
 });
 
-// fix search button ====================================
+// FIX SEARCH BUTTON ====================================
 
 closeSearch.addEventListener('click', (e) => {
   const ul = document.querySelector('#searchList')
@@ -71,10 +71,7 @@ closeSearch.addEventListener('click', (e) => {
 })
 
 
-
-
-
-// post when creating a new contact form 
+// POST WHEN CREATING A NEW CONTACT FORM ==================
 
 Array.from(addIndiBttn).forEach(btn => {
   btn.addEventListener('click', () => {
@@ -83,7 +80,7 @@ Array.from(addIndiBttn).forEach(btn => {
 })
 
 
-// create new contact 
+// CREATE NEW CONTACT ========================= 
 
 newContactForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -171,7 +168,7 @@ newContactForm.addEventListener('submit', (e) => {
 });
 
 
-//updating contact ===========
+// UPDATING CONTACT ==================
 
 Array.from(updateContactForms).forEach(contact => {
   contact.addEventListener('submit', (e) => {
@@ -258,18 +255,7 @@ Array.from(updateContactForms).forEach(contact => {
 });
 
 
-
-
-
-
-
-
-
-// for (const value of formData.values()) {
-//   console.log(value);
-// }
-
-// DELETE Contact BUTTON
+// DELETE CONTACT BUTTON =================================
 
 Array.from(delContactBtn).forEach(bttn => {
   bttn.addEventListener('click', (e) => {

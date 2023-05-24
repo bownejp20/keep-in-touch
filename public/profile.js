@@ -22,7 +22,7 @@ const closeSearch = document.querySelector('.search_closer')
 
 console.log('hi seth', saveGroupBttn)
 
-//created a group and posted it to the DB//
+// CREATED A GROUP AND POSTED IT TO THE DB =============================
 
 Array.from(addGroupBttn).forEach(btn => {
   btn.addEventListener('click', () => {
@@ -52,7 +52,7 @@ saveGroupBttn.addEventListener('click', (e) => {
     })
 });
 
-// RENAME GROUP 
+// RENAME GROUP ===============================
 
 Array.from(renameGroupBttns).forEach(btn => {
   btn.addEventListener('click', (e) => {
@@ -86,7 +86,7 @@ editBttn.addEventListener('click', (e) => {
 });
 
 
-// SEARCH BUTTON
+// SEARCH BUTTON ====================================
 
 
 searchGroups.addEventListener('submit', function (event) {
@@ -134,7 +134,7 @@ searchGroups.addEventListener('submit', function (event) {
     })
 });
 
-// fix search button ==========================
+// FIX SEARCH BUTTON ==========================
 
 closeSearch.addEventListener('click', (e) => {
   const ul = document.querySelector('#searchList')
@@ -142,7 +142,7 @@ closeSearch.addEventListener('click', (e) => {
 })
 
 
-// DELETE BUTTON
+// DELETE BUTTON ===========================
 
 Array.from(deleteGroupBttns).forEach(bttn => {
   bttn.addEventListener('click', (e) => {
@@ -160,9 +160,7 @@ Array.from(deleteGroupBttns).forEach(bttn => {
 });
 
 
-
-
-// create the navigation to the individual group page //
+// CREATE NAV TO THE INDI GROUP PAGE //
 
 // Array.from(groupListItems).forEach(function (gListItem) {
 //   console.log(gListItem.dataset)// you do dataset to get the id
@@ -172,7 +170,7 @@ Array.from(deleteGroupBttns).forEach(bttn => {
 // });
 
 
-// post when creating a new contact form 
+// POST WHEN CREATING A NEW CONTACT FORM ==========================
 
 Array.from(addIndiBttn).forEach(bttn => {
   bttn.addEventListener('click', (e) => {
@@ -183,7 +181,7 @@ Array.from(addIndiBttn).forEach(bttn => {
 
 
 
-// adding indi contact to a group =====================
+// ADDING AN INDI CONTACT TO A GROUP =====================
 
 newContactForm.addEventListener('submit', (e) => {
   e.preventDefault()

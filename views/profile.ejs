@@ -29,7 +29,9 @@
 
 <body>
     <!--================= Header Start =================-->
-    <!--  Add Group Modal -->
+
+    <!--  ADD GROUP MODAL =============-->
+
     <div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -49,7 +51,7 @@
         </div>
     </div>
 
-    <!-- RENAME GROUP MODAL -->
+    <!-- RENAME GROUP MODAL ====================== -->
 
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -70,7 +72,8 @@
         </div>
     </div>
 
-    <!-- Add individual Modal -->
+    <!-- ADD INDIVIDUAL MODAL =========== -->
+
     <div class="modal fade" id="indiModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -164,7 +167,6 @@
                                     </svg>
                                 </a>
                             </div>
-                            
                             <div class="icon_bar__item icon_bar__search ms-3">
                                 <a href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="488.000000pt"
@@ -215,14 +217,12 @@
                             <div class="wid-title">
                                 <h1 class="text d-flex justify-content-center mt-5 ">Groups</h1>
                                 <span class="icon"></span>
-
                             </div>
                             <div class="xoxo_fn_ccategories">
                                 <ul id="searchList">
 
                                 </ul>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -248,8 +248,6 @@
                         <img id="keepLogo" justify-content-center src="/assets/images/logo/keepInTouchTwo.svg"
                             alt="logo">
                     </div>
-
-
                 </div>
                 <div class="search_opener d-flex justify-content-end">
                     <a href="#">
@@ -267,9 +265,9 @@
                         </span>
                     </a>
                 </div>
-            <div>
-                <a class="logout" href="/logout"> <img class="rocket" src="/img/rocket.gif"/>Logout</a>
-            </div>
+                <div>
+                    <a class="logout" href="/logout"> <img class="rocket" src="/img/rocket.gif" />Logout</a>
+                </div>
                 <!--================= Nav Start =================-->
                 <div class="header_bottom">
                     <div class="bottom_fixer">
@@ -290,8 +288,6 @@
                                         </li>
                                         <li class="menu-item ">
                                             <a href="javascript:void()">
-
-
                                                 <button id="addGroupBttn" type="button" class="btn menu-item"
                                                     data-bs-target="#exampleModal"> <!-- data-bs-toggle="modal" -->
                                                     ADD
@@ -372,7 +368,7 @@
                         </a>
                     </li>
                     <div>
-                        <a class="logout" href="/logout"> <img class="rocketMobile" src="/img/rocket.gif"/>Logout</a>
+                        <a class="logout" href="/logout"> <img class="rocketMobile" src="/img/rocket.gif" />Logout</a>
                     </div>
                 </ul>
             </div>
@@ -391,11 +387,9 @@
                         <div class="container blog_layout_masonry_container">
                             <div class="xoxo_fn_bloglist blog_layout_masonry">
                                 <ul>
-
                                     <% for(var i=0; i<groups.length; i++) {%>
                                         <li class="post_item <%= i % 2 === 0 ? 'sticky' : '' %>">
                                             <div class="blog__item blog__item_masonry">
-
                                                 <div class="fn__meta">
                                                     <p>
                                                         <span class="meta_item meta_date">
@@ -404,7 +398,6 @@
                                                                 viewBox="0 0 470.000000 470.000000"
                                                                 preserveAspectRatio="xMidYMid meet"
                                                                 class="fn__svg  replaced-svg">
-
                                                                 <i class="bi bi-people-fill"></i>
                                                             </svg>
                                                             <span class="meta_item meta_category"></span>
@@ -414,13 +407,11 @@
                                                                 </a>
                                                             </span>
                                                         </span>
-
                                                     </p>
                                                 </div>
                                                 <div class="bottom_holder">
                                                     <div class="blog__image">
                                                         <!-- <a href="/groups/<%=groups[i]._id %>"><img src="assets/images/blog/05.jpg" alt="Post Image"></a> -->
-
                                                     </div>
                                                     <div class="title_holder">
                                                         <div class="title">
@@ -458,7 +449,6 @@
                                             </div>
                                         </li>
                                         <% } %>
-
                                 </ul>
                             </div>
                         </div>
@@ -479,14 +469,9 @@
                     </div>
                     <!--================= Without Sidebar End =================-->
                 </div>
-
-
             </div>
-
             <div class="clearfix"></div>
-
         </div>
-
     </div>
     <!--================= Home Two End =================-->
 
@@ -527,7 +512,6 @@
                                 }
                             })();
                         </script>
-
                     </div>
                 </div>
             </div>
@@ -536,7 +520,6 @@
                     <div class="footer_btm_in">
                         <span class="wing_left"></span>
                         <span class="wing_right"></span>
-
                     </div>
                 </div>
             </div>
@@ -595,7 +578,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="/profile.js"></script>
-    <script src="/groups/logout.js"></script>
+    
 </body>
 
 </html>

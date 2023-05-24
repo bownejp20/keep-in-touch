@@ -8,6 +8,7 @@ const Reminder = class {
   constructor(to, message) {
     this.to = to,
       this.message = message
+      console.log(to)
   }
   sendReminder() {
     client.messages

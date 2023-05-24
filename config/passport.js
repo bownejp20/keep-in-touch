@@ -49,6 +49,8 @@ module.exports = function(passport) {
                 return done(err);
 
             // check to see if theres already a user with that email
+            console.log(req?.body, 'req.body')
+
             if (user) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
@@ -63,6 +65,8 @@ module.exports = function(passport) {
                 newUser.local.firstName = req.body.firstName
                 newUser.local.lastName = req.body.lastName
                 newUser.local.fullName = `${req.body.firstName} ${req.body.lastName}`
+                newUser.local.phone = req.body.phone
+                
 
 				// save the user
                 newUser.save(function(err) {

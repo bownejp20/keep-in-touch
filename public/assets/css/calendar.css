@@ -7,7 +7,8 @@
   min-height: 10vh;
   text-align: center;
 }
-#calHeadSpace{
+
+#calHeadSpace {
   padding-bottom: 0;
   margin-bottom: 0;
 }
@@ -168,7 +169,7 @@ button {
   box-shadow: none !important;
 }
 
-#menu-main-menu-1{
+#menu-main-menu-1 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;

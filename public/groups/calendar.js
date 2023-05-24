@@ -1,7 +1,7 @@
 let nav = 0;
 let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
-
+const groupModal = new bootstrap.Modal(document.getElementById('groupModal'))
 const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
 const deleteEventModal = document.getElementById('deleteEventModal');
@@ -10,13 +10,18 @@ const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const listOfContacts = document.querySelector('.contactModal')
 
+
+// MODAL THAT SHOWS THE LIST OF CONTACTS EACH DAY ====================================
+
 function openModal(date, contacts) {
   console.log(contacts)
   if (contacts) {
+    listOfContacts.replaceChildren()
     contacts.forEach(contact => {
       const li = document.createElement('li')
       li.innerText = `${contact.Name}: ${contact.Phone}`;
       listOfContacts.appendChild(li)
+      groupModal.show()
     })
   }
   clicked = date;
@@ -33,7 +38,7 @@ function openModal(date, contacts) {
   backDrop.style.display = 'block';
 }
 
-// squares in calendar are created
+// SQUARES IN CALENDAR ARE CREATED ====================
 
 async function load() {
   const dt = new Date();
@@ -90,6 +95,7 @@ async function load() {
 
     const dayString = `${month + 1}/${i - paddingDays}/${year}`;
     // console.log('day format', dateString)
+
 
 
     if (i > paddingDays) {
@@ -178,9 +184,9 @@ function initButtons() {
   });
 
   // document.getElementById('saveButton').addEventListener('click', saveEvent);
-  document.getElementById('cancelButton').addEventListener('click', closeModal);
-  // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
-  document.getElementById('closeButton').addEventListener('click', closeModal);
+  // document.getElementById('cancelButton').addEventListener('click', closeModal);
+  // // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+//   document.getElementById('closeButton').addEventListener('click', closeModal);
 }
 
 initButtons();

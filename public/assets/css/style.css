@@ -7983,9 +7983,12 @@ margin: auto;
     transform: translate(500px, -200px);
   }
 }
+#phone{
+  width:100%;
+}
 
 .svg-container {
-  animation: flyAnimation 4s ease-in-out 2;
+  animation: flyAnimation 6s ease-in-out 2;
 }
 .rocket{
   width: 80px;

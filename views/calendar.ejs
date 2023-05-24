@@ -282,23 +282,9 @@
         <li>Friday</li>
         <li>Saturday</li>
       </ul>
-
-      <!-- <div id="weekdays">
-        <div>Sunday</div>
-        <div>Monday</div>
-        <div>Tuesday</div>
-        <div>Wednesday</div>
-        <div>Thursday</div>
-        <div>Friday</div>
-        <div>Saturday</div>
-      </div> -->
-
+      
       <ol id="calendar" class="day-grid"></ol>
     </div>
-
-    <div id="newEventModal">
-      <h2>Contacts</h2>
-      <ul class="contactModal"></ul>
 
 
 
@@ -310,36 +296,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input id="groupNameInput" type="text" class="form-control" placeholder="Name" required>
-                    <input id="descriptionInput" type="text" class="form-control" placeholder="Description">
-                </div>
+                <ul class='contactModal'></ul>
                 <div class="modal-footer">
-                    <button id="saveGroupBttn" type="button" class="btn btn-tertiary">Save</button>
                     <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div>
 
-
-
-
-      <input id="eventTitleInput" placeholder="Event Title" />
-
-      <button id="saveButton">Save</button>
-      <button id="cancelButton">Cancel</button>
-    </div>
-
-    <div id="deleteEventModal">
-      <h2>Event</h2>
-
-      <p id="eventText"></p>
-
-      <button id="deleteButton">Delete</button>
-      <button id="closeButton">Close</button>
-    </div>
-
-    <div id="modalBackDrop"></div>
+    
   </div>
 
 
@@ -360,7 +324,7 @@
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>
   <script src="/groups/calendar.js"></script>
-  <script src="/groups/logout.js"></script>
+  
 </body>
 
 </html>
