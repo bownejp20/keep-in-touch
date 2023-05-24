@@ -7,13 +7,14 @@ const client = require("twilio")(process.env.Account_Sid, process.env.Auth_Token
 const Reminder = class {
   constructor(to, message) {
     this.to = to,
-      this.message = message
-      console.log(to)
+      this.message = message?? "This is a reminder"
+      console.log(to, 'twilio number', message, "message")
   }
   sendReminder() {
     client.messages
       .create({ body: this.message, from: process.env.Twilio_Number, to: this.to })
-      .then(message => console.log(message));
+      .then(message => console.log(message))
+      .catch(error => console.log(error))
   }
 }
 

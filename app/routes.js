@@ -94,7 +94,7 @@ module.exports = function (app, passport, db, ObjectId) {
 
    // CALENDAR PAGE =========================
    app.get('/calendar',  function (req, res) {
-    // console.log(req.user)
+    console.log(req.user)
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
       sendReminders(req.user)
       if (err) return console.log(err)
