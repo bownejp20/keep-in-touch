@@ -25,7 +25,7 @@ const generateReminderDates = (startDate, frequency) => {
                 reminders.push({newDate, sent:false});
             }
             return reminders;
-        case "semi-monthly":
+        case "semi-annually":
             for (let i = 0; i < 2; i++) {
                 const newDate = date.add(6, 'months').format('MMMM DD, YYYY')
                 reminders.push({newDate, sent:false});
