@@ -131,6 +131,7 @@ newContactForm.addEventListener('submit', (e) => {
         .then(data => {
           console.log(data)
           individualModal.hide()
+          location.reload()
         })
     };
     reader.onerror = () => {
