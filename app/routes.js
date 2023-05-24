@@ -15,6 +15,7 @@ module.exports = function (app, passport, db, ObjectId) {
   //  Sending reminders out ==================================
 
   const sendReminders = (user) => {
+    console.log('user', user)
     db.collection('groups').aggregate([
       {
         $match: {
@@ -52,13 +53,13 @@ module.exports = function (app, passport, db, ObjectId) {
       console.log(smsFormat)
       smsFormat.forEach(contact => {
         console.log(contact.phone)
-        new Reminder(user.phone, contact.message).sendReminder()
+        new Reminder(process.env.Jessica_Number, contact.message).sendReminder()
       })
 
   
       db.collection('groups').updateMany(
           {
-            'user': ObjectId(user),
+            'user': ObjectId(user._id),
             'contacts._id': { $in: smsFormat.map(contact => contact._id) }
           },
           {
@@ -79,7 +80,7 @@ module.exports = function (app, passport, db, ObjectId) {
 
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
-    console.log(req.user)
+    console.log(req.user, 'profile route')
     db.collection('groups').find({ user: ObjectId(req.user._id) }).toArray((err, result) => {
       sendReminders(req.user)
       if (err) return console.log(err)
@@ -150,7 +151,7 @@ module.exports = function (app, passport, db, ObjectId) {
     })
   });
 
-  // for the search 
+  // FOR THE GROUP SEARCH ============================
 
   app.get('/search/groups', isLoggedIn, function (req, res) {
     console.log(req.params)
@@ -161,7 +162,7 @@ module.exports = function (app, passport, db, ObjectId) {
     }
             //we did the regex to find partial matches in the search 
 
-    db.collection('groups').find({ groupName: { $regex: groupName, $options: 'i' } }).toArray((err, result) => {
+    db.collection('groups').find({ user:ObjectId(req.user.id), groupName: { $regex: groupName, $options: 'i' } }).toArray((err, result) => {
       if (err) return console.log(err)
       console.log(result)
       res.send({ groups: result })
