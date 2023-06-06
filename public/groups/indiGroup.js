@@ -1,4 +1,4 @@
-console.log('connected')
+
 const newContactForm = document.querySelector('#newContactForm')
 const individualModal = new bootstrap.Modal(document.getElementById('individualModal'))
 const addIndiBttn = document.querySelectorAll('#indiBttn')
@@ -13,7 +13,7 @@ const closeSearch = document.querySelector('.search_closer')
 //SEARCH CONTACTS =========================
 
 searchContacts.addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent default form submission
+  event.preventDefault(); 
 
   var formData = new FormData(event.target); // Create FormData object with form data
 
@@ -21,7 +21,6 @@ searchContacts.addEventListener('submit', function (event) {
   var contactSearch = formData.get('search'); //formData.get('search') is the same as document.queryselector.(), 
 
   // Do something with the form data
-  console.log('contactSearch:', contactSearch);
   const ul = document.querySelector('#searchList')
   ul.replaceChildren()
   fetch(`/search/contact?groupId=${event.target.dataset.id}&contactSearch=${contactSearch}`, {
@@ -32,7 +31,6 @@ searchContacts.addEventListener('submit', function (event) {
   })
     .then(res => res.json())
     .then((response) => {
-      console.log(response)
       response.contacts.forEach((contact, index) => {
         const li = document.createElement('li')
         li.addEventListener('click', () => {
@@ -84,7 +82,6 @@ Array.from(addIndiBttn).forEach(btn => {
 
 newContactForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  console.log(e.target.dataset.id)
   const formData = new FormData()
   formData.append('firstName', document.querySelector('#firstNameInput').value)
   formData.append('lastName', document.querySelector('#lastNameInput').value)
@@ -97,12 +94,10 @@ newContactForm.addEventListener('submit', (e) => {
   formData.append('instagram', document.querySelector('#instagram').value)
   formData.append('facebook', document.querySelector('#facebook').value)
   const targetFile = document.querySelector('#imageInput').files?.[0]
-  console.log(targetFile)
   if (targetFile) {
     const reader = new FileReader();
     reader.readAsDataURL(targetFile);
     reader.onload = fileReaderEvent => {
-      console.log(fileReaderEvent, 'file');
       formData.append('img', fileReaderEvent.target.result)
       formData.append('fileName', targetFile.name)
       fetch('/groups/contact/create', {
@@ -129,13 +124,11 @@ newContactForm.addEventListener('submit', (e) => {
           if (response.ok) return response.json()
         })
         .then(data => {
-          console.log(data)
           individualModal.hide()
           location.reload()
         })
     };
     reader.onerror = () => {
-      console.log(reader.error);
     };
   } else {
     fetch('/groups/contact/create', {
@@ -161,7 +154,6 @@ newContactForm.addEventListener('submit', (e) => {
         if (response.ok) return response.json()
       })
       .then(data => {
-        console.log(data)
         individualModal.hide()
         location.reload()
       })
@@ -176,15 +168,12 @@ Array.from(updateContactForms).forEach(contact => {
     e.preventDefault()
     const formData = new FormData(e.target)
     const targetFile = formData.get('upload')
-    console.log(formData.get('upload').files)
     for (const pair of formData.entries()) {
-      console.log(`${pair[0]}, ${pair[1]}`);
     }
     if (targetFile.name) {
       const reader = new FileReader();
       reader.readAsDataURL(targetFile);
       reader.onload = fileReaderEvent => {
-        console.log(fileReaderEvent, 'file');
         formData.append('img', fileReaderEvent.target.result)
         formData.append('fileName', targetFile.name)
         fetch('/groups/contact/update', {
@@ -212,13 +201,11 @@ Array.from(updateContactForms).forEach(contact => {
             if (response.ok) return response.json()
           })
           .then(data => {
-            console.log(data)
             individualModal.hide()
             location.reload()
           })
       };
       reader.onerror = () => {
-        console.log(reader.error);
       };
     } else {
       fetch('/groups/contact/update', {
@@ -246,8 +233,6 @@ Array.from(updateContactForms).forEach(contact => {
           if (response.ok) return response.json()
         })
         .then(data => {
-
-          console.log(data)
           individualModal.hide()
           location.reload()
         })
@@ -260,7 +245,6 @@ Array.from(updateContactForms).forEach(contact => {
 
 Array.from(delContactBtn).forEach(bttn => {
   bttn.addEventListener('click', (e) => {
-    console.log(e.target.dataset)
     fetch('/groups/contact/delete', {
       method: 'delete',
       headers: { 'Content-Type': 'application/json' },

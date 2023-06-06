@@ -15,7 +15,6 @@ module.exports = function (app, passport, db, ObjectId) {
   //  Sending reminders out ==================================
 
   const sendReminders = (user) => {
-    console.log('user', user)
     db.collection('groups').aggregate([
       {
         $match: {
@@ -60,7 +59,6 @@ module.exports = function (app, passport, db, ObjectId) {
       });
       console.log(smsFormat)
       smsFormat.forEach(contact => {    
-        console.log(contact.phone)
         new Reminder(process.env.Jessica_Number, contact.message).sendReminder()
       })      
 
@@ -182,9 +180,7 @@ module.exports = function (app, passport, db, ObjectId) {
    // CONTACT SEARCH ==================
 
    app.get('/search/contact', isLoggedIn, function (req, res) {
-    console.log(req.query)
     const { contactSearch, groupId } = req.query
-    console.log(contactSearch, groupId)
     if (!contactSearch) {
       res.send({ error: 'Enter Contact Name!', success: false })
       return
@@ -220,7 +216,6 @@ module.exports = function (app, passport, db, ObjectId) {
     ]).toArray((err, result) => {
       if (err) return console.log(err);
       const contacts = result.length > 0 ? result[0].contacts : [];
-      console.log(contacts);
       res.send({ contacts });
     });
   });

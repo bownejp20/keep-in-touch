@@ -90,7 +90,7 @@ editBttn.addEventListener('click', (e) => {
 
 
 searchGroups.addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent default form submission
+  event.preventDefault(); 
 
   var formData = new FormData(event.target); // Create FormData object with form data
 
@@ -158,16 +158,6 @@ Array.from(deleteGroupBttns).forEach(bttn => {
     })
   });
 });
-
-
-// CREATE NAV TO THE INDI GROUP PAGE //
-
-// Array.from(groupListItems).forEach(function (gListItem) {
-//   console.log(gListItem.dataset)// you do dataset to get the id
-//   gListItem.addEventListener('click', function () {
-//     window.location = `groups/${gListItem.dataset.id}` //takes you to a new browser page instead of fetching. 
-//   });
-// });
 
 
 // POST WHEN CREATING A NEW CONTACT FORM ==========================
