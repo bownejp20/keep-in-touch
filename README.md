@@ -11,7 +11,7 @@ Tech used: HTML, CSS, SCSS, JavaScript, Express, Node.js
 
 APIs:  Twilio for SMS texts, and Cloudinary for storing images 
 
-  ##See this project on your own machine:
+  ## See this project on your own machine:
 See below for instructions.
  
   ### Install
